@@ -17,7 +17,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 
-app.get("/testing", (req, res) => {
+app.get("/api/testing", (req, res) => {
   return res.json({"ok" : "ok"})
 });
 
