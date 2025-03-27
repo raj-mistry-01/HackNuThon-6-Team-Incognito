@@ -1,6 +1,7 @@
 import  express from 'express';
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import testRouter from "./Routes/expr.routes.js"
 const app = express();
 
 app.use(
@@ -16,7 +17,7 @@ app.use(express.static("public"));
 app.use(cookieParser());
 app.use(express.json());
 
-
+app.use("/api/test1/exprs" , testRouter)
 app.get("/api/testing", (req, res) => {
   return res.json({"ok" : "ok"})
 });
