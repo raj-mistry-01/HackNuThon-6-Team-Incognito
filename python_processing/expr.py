@@ -50,14 +50,12 @@ selenium-test:
     - apt-get update && apt-get install -y chromium-driver
     - pip install selenium pytest requests
     - echo "🔥 Fetching test cases..."
-    - curl -o test_cases.json " https://e3b3-202-131-110-60.ngrok-free.app/test-cases"
+    - curl -o test_cases.json "https://1f1c-202-131-110-12.ngrok-free.app/test-cases"
     - echo "🔥 Fetching Selenium script..."
-    - curl -o test_runner.py " https://e3b3-202-131-110-60.ngrok-free.app/selenium-script"
+    - curl -o test_runner.py "https://1f1c-202-131-110-12.ngrok-free.app/selenium-script"
   script:
     - echo "🔥 Running Selenium tests..."
-    - python test_runner.py || echo "❌ Some tests failed, but the report will still be generated!"
-    - echo "📂 Listing files after execution:"
-    - ls -la
+    - python test_runner.py
   artifacts:
     when: always
     paths:
