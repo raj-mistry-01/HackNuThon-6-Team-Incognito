@@ -37,32 +37,33 @@ def fetch_ci_file():
 def push_updated_ci_file():
     # 🔥 Your final GitLab CI/CD configuration with dynamic test execution
     new_content = f"""
+image: ruby:3.1  # Keep using your current Docker image
+
 stages:
   - test
 
-selenium-test:
+test_execution:
   stage: test
-  image: python:3.10
-  services:
-    - name: selenium/standalone-chrome:latest
-      alias: chrome
   before_script:
-    - apt-get update && apt-get install -y chromium-driver
-    - pip install selenium pytest requests
-    - echo "🔥 Fetching test cases..."
-    - curl -o test_cases.json " https://e3b3-202-131-110-60.ngrok-free.app/test-cases"
-    - echo "🔥 Fetching Selenium script..."
-    - curl -o test_runner.py " https://e3b3-202-131-110-60.ngrok-free.app/selenium-script"
+    - apt-get update && apt-get install -y jq curl  # Install jq and curl
   script:
-    - echo "🔥 Running Selenium tests..."
-    - python test_runner.py || echo "❌ Some tests failed, but the report will still be generated!"
-    - echo "📂 Listing files after execution:"
-    - ls -la
-  artifacts:
-    when: always
-    paths:
-      - report.xml
-    expire_in: 1 week
+    - echo "🔥 Checking test status from the server..."
+    - |
+      response=$(curl -s https://b97d-202-131-110-60.ngrok-free.app/test-status)
+      echo "Server Response: $response"
+
+      # ✅ Extract the 'status' field from the response
+      status=$(echo "$response" | jq -r '.status')
+
+      # ✅ Proper multi-line block with correct YAML syntax
+      if [ "$status" == "true" ]; then
+        echo "✅ All tests passed!"
+        exit 0  # Success
+      else
+        echo "❌ Some tests failed!"
+        exit 1  # Fail the pipeline
+      fi
+  allow_failure: false
 """
 
     # ✅ API call to push the updated .gitlab-ci.yml
