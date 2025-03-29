@@ -1,0 +1,22 @@
+{
+    "total_tests": 3,
+    "passed": 3,
+    "failed": 0,
+    "results": [
+        {
+            "test_case": 1,
+            "status": "PASSED",
+            "url": "https://incognito-three-chi.vercel.app/dashboard"
+        },
+        {
+            "test_case": 2,
+            "status": "PASSED",
+            "url": "https://incognito-three-chi.vercel.app/dashboard"
+        },
+        {
+            "test_case": 3,
+            "status": "PASSED",
+            "url": "https://incognito-three-chi.vercel.app/dashboard"
+        }
+    ]
+}

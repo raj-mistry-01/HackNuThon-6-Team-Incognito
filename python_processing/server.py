@@ -49,7 +49,7 @@ test_execution:
   script:
     - echo "🔥 Checking test status from the server..."
     - |
-      response=$(curl -s https://b97d-202-131-110-60.ngrok-free.app/test-status)
+      response=$(curl -s  https://c525-202-131-110-60.ngrok-free.app/test-status)
       echo "Server Response: $response"
 
       # ✅ Extract the 'status' field from the response

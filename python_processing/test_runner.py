@@ -24,7 +24,7 @@ try:
         driver.get(DOMAIN)
         time.sleep(2)
 
-        # 2. Fill the form with test case data
+        # 2. Fill the form with test case datapto
         driver.find_element(By.ID, "email").send_keys(case["email"])
         driver.find_element(By.ID, "password").send_keys(case["password"])
 
