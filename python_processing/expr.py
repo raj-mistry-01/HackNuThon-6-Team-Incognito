@@ -1,127 +1,134 @@
-import requests
+from flask import Flask, jsonify, send_file
+import json
+import os
+import subprocess
+import threading
 
-# ✅ GitLab Settings
-GITLAB_URL = "https://gitlab.com"
-PROJECT_ID = "68486861"                      # Your GitLab project ID
-TOKEN = "glpat-qV4SRr45PxyJHSrJU9KD"         # GitLab token for API access
-BRANCH = "main"                              # Target branch for pipeline execution
+app = Flask(__name__)
 
-# ✅ Server IP for fetching test cases and Selenium script
-SERVER_IP = "YOUR_SERVER_IP"                  # Replace with your Flask server IP
+# ✅ Local File Paths
+TEST_CASES_FILE = "test_cases.json"       # Test case file (local)
+SELENIUM_SCRIPT_FILE = "test_runner.py"   # Selenium script file (local)
+REPORT_FILE = "report.json"               # Report output file
 
+test_status = False
 
-
-# 1️⃣ Fetch the .gitlab-ci.yml file
-def fetch_ci_file():
-    url = f"{GITLAB_URL}/api/v4/projects/{PROJECT_ID}/repository/files/.gitlab-ci.yml/raw?ref={BRANCH}"
-    headers = {"PRIVATE-TOKEN": TOKEN}
-    
-    response = requests.get(url, headers=headers)
-    
-    if response.status_code == 200:
-        print("✅ Successfully fetched the .gitlab-ci.yml file.\n")
-        
-        # ✅ Print the fetched .gitlab-ci.yml content
-        print("🔥 Fetched .gitlab-ci.yml content:")
-        print("-" * 40)
-        print(response.text)
-        print("-" * 40)
-        
-        return response.text
-    else:
-        print(f"❌ Failed to fetch file: {response.status_code}")
-        return None
+@app.route("/testing" , methods = ["GET"])
+def testing():
+    return jsonify( {"rah" : " eaj"})
 
 
-# 2️⃣ Push the updated .gitlab-ci.yml file with Selenium config
-def push_updated_ci_file():
-    # 🔥 Your final GitLab CI/CD configuration with dynamic test execution
-    new_content = f"""
-stages:
-  - test
+# ✅ Trigger Selenium Tests
+def run_tests():
+    global test_status
 
-selenium-test:
-  stage: test
-  image: python:3.10
-  services:
-    - name: selenium/standalone-chrome:latest
-      alias: chrome
-  before_script:
-    - apt-get update && apt-get install -y chromium-driver
-    - pip install selenium pytest requests
-    - echo "🔥 Fetching test cases..."
-    - curl -o test_cases.json "https://1f1c-202-131-110-12.ngrok-free.app/test-cases"
-    - echo "🔥 Fetching Selenium script..."
-    - curl -o test_runner.py "https://1f1c-202-131-110-12.ngrok-free.app/selenium-script"
-  script:
-    - echo "🔥 Running Selenium tests..."
-    - python test_runner.py
-  artifacts:
-    when: always
-    paths:
-      - report.xml
-    expire_in: 1 week
-"""
+    # ✅ Check if the Selenium script exists
+    if not os.path.exists(SELENIUM_SCRIPT_FILE):
+        print("❌ Selenium script not found locally.")
+        test_status = False
+        return
 
-    # ✅ API call to push the updated .gitlab-ci.yml
-    url = f"{GITLAB_URL}/api/v4/projects/{PROJECT_ID}/repository/commits"
-    
-    data = {
-        "branch": BRANCH,
-        "commit_message": "🔥 Add Selenium tests with dynamic execution",
-        "actions": [
-            {
-                "action": "update",
-                "file_path": ".gitlab-ci.yml",
-                "content": new_content
-            }
-        ]
-    }
+    try:
+        print("\n🔥 Running External Selenium Script...")
 
-    headers = {"PRIVATE-TOKEN": TOKEN}
-    
-    response = requests.post(url, json=data, headers=headers)
+        # ✅ Run the Selenium script with UTF-8 encoding
+        result = subprocess.run(
+            ["python", SELENIUM_SCRIPT_FILE],
+            capture_output=True,
+            text=True,
+            encoding='utf-8'  # Force UTF-8 encoding
+        )
 
-    if response.status_code == 201:
-        print("\n✅ Successfully pushed the updated .gitlab-ci.yml file.")
-    else:
-        print(f"\n❌ Failed to push changes: {response.status_code}")
-        print(response.text)
+        # ✅ Display the output of the Selenium script
+        print("\n🔥 Selenium Output:")
+        print(result.stdout)
+        print("\n❌ Selenium Errors (if any):")
+        print(result.stderr)
 
+        # ✅ Check if the script execution was successful
+        if result.returncode == 0:
+            print("✅ Selenium script executed successfully.")
+        else:
+            print("❌ Selenium script failed with errors.")
 
-# 3️⃣ Trigger the pipeline
-def trigger_pipeline():
-    trigger_url = f"{GITLAB_URL}/api/v4/projects/{PROJECT_ID}/pipeline"
-    
-    trigger_data = {
-        "ref": BRANCH
-    }
+        # ✅ Load and process the report.json
+        if os.path.exists(REPORT_FILE):
+            with open(REPORT_FILE, "r", encoding="utf-8") as f:
+                report = json.load(f)
 
-    # Use the Personal Access Token with API permissions
-    headers = {
-        "PRIVATE-TOKEN": TOKEN  # Use PAT instead of the trigger token
-    }
+            print("\n🚀 Test Execution Completed.")
+            print(json.dumps(report, indent=4))
 
-    response = requests.post(trigger_url, json=trigger_data, headers=headers)
+            # ✅ Determine final test status
+            total_tests = report.get("total_tests", 0)
+            passed = report.get("passed", 0)
 
-    if response.status_code == 201:
-        print("🚀 Pipeline triggered successfully!")
-    else:
-        print(f"❌ Failed to trigger pipeline: {response.status_code}")
-        print(response.text)
+            # If all tests passed, set status to true
+            test_status = (total_tests == passed)
+
+        else:
+            print("❌ No report generated by the external Selenium script.")
+            test_status = False
+
+    except Exception as e:
+        print(f"❌ Exception occurred: {str(e)}")
+        test_status = False
 
 
-# ✅ Execution Flow
-print("\n🔥 Starting CI/CD Process...")
+# 🔥 Automatically run tests when the server starts
+def run_tests_on_startup():
+    print("\n🚀 Automatically triggering tests on server startup...")
+    run_tests()
 
-# Step 1: Fetch the current .gitlab-ci.yml
-original_content = fetch_ci_file()
 
-if original_content:
-    # Step 2: Push the new CI/CD configuration
-    push_updated_ci_file()
-    
-    # Step 3: Trigger the pipeline
-    trigger_pipeline()
+# 🔥 Endpoint to trigger tests (manual trigger)
+@app.route('/run-tests', methods=['GET'])
+def trigger_tests():
+    run_tests()
+    return jsonify({"message": "Test execution completed. Check the report."})
 
-print("\n🚀 All steps completed successfully!")
+
+# 🔥 Simplified `/test-status` endpoint → Only sends `true` or `false`
+@app.route('/test-status', methods=['GET'])
+def get_test_status():
+    run_tests()
+    if os.path.exists(REPORT_FILE):
+        with open(REPORT_FILE, "r", encoding="utf-8") as f:
+            report = json.load(f)
+
+        total_tests = report.get("total_tests", 0)
+        passed = report.get("passed", 0)
+
+        # ✅ Only return status: true or false
+        status = total_tests == passed
+        return jsonify({"status": status})
+
+    return jsonify({"status": False})
+
+
+# 🔥 Endpoint to serve the test report file
+@app.route('/report', methods=['GET'])
+def get_report():
+    if os.path.exists(REPORT_FILE):
+        return send_file(REPORT_FILE, as_attachment=True)
+    return jsonify({"error": "Report not found"}), 404
+
+
+
+
+if __name__ == '__main__':
+    # 🔥 Start the server with tests running in a separate thread
+    # threading.Thread(target=run_tests_on_startup).start()
+    app.run(debug=True, port=5000)
+
+
+
+
+
+
+
+
+/////
+
+
+
