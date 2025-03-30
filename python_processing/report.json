@@ -1,0 +1,54 @@
+{
+  "execution_date": "2025-03-30 07:45:24",
+  "total_duration_seconds": 42.927741,
+  "total_tests": 5,
+  "passed_tests": 4,
+  "failed_tests": 1,
+  "results": [
+    {
+      "test_id": "TC001",
+      "test_name": "Successful Login",
+      "script_path": "git\\test_TC001\\test_TC001_script.py",
+      "testcase_path": "git\\test_TC001\\testcase.json",
+      "start_time": "2025-03-30 07:45:24",
+      "passed": false,
+      "end_time": "2025-03-30 07:45:24"
+    },
+    {
+      "test_id": "TC002",
+      "test_name": "Failed Login - Invalid Credentials",
+      "script_path": "git\\test_TC002\\test_TC002_script.py",
+      "testcase_path": "git\\test_TC002\\testcase.json",
+      "start_time": "2025-03-30 07:45:24",
+      "passed": true,
+      "end_time": "2025-03-30 07:45:35"
+    },
+    {
+      "test_id": "TC003",
+      "test_name": "Navigate to Sign Up",
+      "script_path": "git\\test_TC003\\test_TC003_script.py",
+      "testcase_path": "git\\test_TC003\\testcase.json",
+      "start_time": "2025-03-30 07:45:35",
+      "passed": true,
+      "end_time": "2025-03-30 07:45:47"
+    },
+    {
+      "test_id": "TC004",
+      "test_name": "Toggle Theme",
+      "script_path": "git\\test_TC004\\test_TC004_script.py",
+      "testcase_path": "git\\test_TC004\\testcase.json",
+      "start_time": "2025-03-30 07:45:47",
+      "passed": true,
+      "end_time": "2025-03-30 07:45:57"
+    },
+    {
+      "test_id": "TC005",
+      "test_name": "Navigate to Home",
+      "script_path": "git\\test_TC005\\test_TC005_script.py",
+      "testcase_path": "git\\test_TC005\\testcase.json",
+      "start_time": "2025-03-30 07:45:57",
+      "passed": true,
+      "end_time": "2025-03-30 07:46:06"
+    }
+  ]
+}

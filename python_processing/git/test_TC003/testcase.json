@@ -1,0 +1,22 @@
+{
+  "id": "TC003",
+  "name": "Navigate to Sign Up",
+  "description": "Verify navigation to the sign-up page.",
+  "steps": [
+    "Step 1: Navigate to the login page.",
+    "Step 2: Click the 'Sign up' link."
+  ],
+  "expected_results": [
+    "Expected Result 1: User should be redirected to the sign-up page."
+  ],
+  "elements": [
+    {
+      "step": "Step 2",
+      "description": "Sign up link",
+      "type": "link",
+      "selectors": {
+        "css": "a[href='/signup']"
+      }
+    }
+  ]
+}

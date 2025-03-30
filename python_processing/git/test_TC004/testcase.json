@@ -1,0 +1,23 @@
+{
+  "id": "TC004",
+  "name": "Toggle Theme",
+  "description": "Verify theme toggling functionality.",
+  "steps": [
+    "Step 1: Navigate to the login page.",
+    "Step 2: Click the theme toggle button."
+  ],
+  "expected_results": [
+    "Expected Result 1: The theme should switch between light and dark mode."
+  ],
+  "elements": [
+    {
+      "step": "Step 2",
+      "description": "Theme toggle button",
+      "type": "button",
+      "text_content": "\ud83c\udf1e",
+      "selectors": {
+        "css": "button.text-yellow-300"
+      }
+    }
+  ]
+}

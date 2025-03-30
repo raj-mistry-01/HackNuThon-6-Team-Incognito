@@ -1,0 +1,46 @@
+{
+  "id": "TC002",
+  "name": "Failed Login - Invalid Credentials",
+  "description": "Verify login failure with invalid credentials.",
+  "steps": [
+    "Step 1: Navigate to the login page.",
+    "Step 2: Enter an invalid email address.",
+    "Step 3: Enter an invalid password.",
+    "Step 4: Click the Login button."
+  ],
+  "expected_results": [
+    "Expected Result 1: An error message should be displayed indicating invalid credentials."
+  ],
+  "elements": [
+    {
+      "step": "Step 2",
+      "description": "Email input field",
+      "type": "input",
+      "selectors": {
+        "id": "email"
+      }
+    },
+    {
+      "step": "Step 3",
+      "description": "Password input field",
+      "type": "input",
+      "selectors": {
+        "id": "password"
+      }
+    },
+    {
+      "step": "Step 4",
+      "description": "Login button",
+      "type": "button",
+      "selectors": {
+        "id": "login"
+      }
+    }
+  ],
+  "test_data": [
+    {
+      "email": "invalid@example.com",
+      "password": "wrongpassword"
+    }
+  ]
+}

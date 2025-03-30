@@ -1,0 +1,22 @@
+{
+  "id": "TC005",
+  "name": "Navigate to Home",
+  "description": "Verify navigation to the home page from the logo.",
+  "steps": [
+    "Step 1: Navigate to the login page.",
+    "Step 2: Click the 'Incognito' logo."
+  ],
+  "expected_results": [
+    "Expected Result 1: User should be redirected to the home page."
+  ],
+  "elements": [
+    {
+      "step": "Step 2",
+      "description": "Incognito logo link",
+      "type": "link",
+      "selectors": {
+        "css": "a[href='/']"
+      }
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "id": "TC001",
+  "name": "Successful Login",
+  "description": "Verify successful login with valid credentials.",
+  "steps": [
+    "Step 1: Navigate to the login page.",
+    "Step 2: Enter a valid email address.",
+    "Step 3: Enter a valid password.",
+    "Step 4: Click the Login button."
+  ],
+  "expected_results": [
+    "Expected Result 1: User should be redirected to the home page or dashboard."
+  ],
+  "elements": [
+    {
+      "step": "Step 2",
+      "description": "Email input field",
+      "type": "input",
+      "selectors": {
+        "id": "email"
+      }
+    },
+    {
+      "step": "Step 3",
+      "description": "Password input field",
+      "type": "input",
+      "selectors": {
+        "id": "password"
+      }
+    },
+    {
+      "step": "Step 4",
+      "description": "Login button",
+      "type": "button",
+      "selectors": {
+        "id": "login"
+      }
+    }
+  ],
+  "test_data": [
+    {
+      "email": "test@example.com",
+      "password": "password123"
+    }
+  ]
+}
