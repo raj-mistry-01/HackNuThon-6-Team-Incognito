@@ -22,7 +22,8 @@ from multiprocessing import Process, Queue
 # Configuration variables - Edit these values
 WEBSITE_URL = "https://github.com/login"  # URL of the website to scrape
 OUTPUT_FOLDER = "./git"  # Folder to store generated test scripts
-API_KEYS = ["AIzaSyDQd8ihGxz2bCA9lH-5pyyKYQjgIyolI3E", "AIzaSyCF6R7qDpglneMDgYun360O52A_UUeO-QM", "AIzaSyAETp5SEGNHvgfTlDizjfG8Bub16vh-D5w"]  # Replace with your three Google Gemini API keys
+# API_KEYS = ["AIzaSyDQd8ihGxz2bCA9lH-5pyyKYQjgIyolI3E", "AIzaSyCF6R7qDpglneMDgYun360O52A_UUeO-QM", "AIzaSyAETp5SEGNHvgfTlDizjfG8Bub16vh-D5w"]# Replace with your three Google Gemini API keys
+API_KEYS = ["AIzaSyCHtvnqM8kSKsrXk6EuGM58WGIKL0cABWY", "AIzaSyCoJHzEpD2rumexyEeL4rTRxkihGI8Dg78", "AIzaSyBxlPIxAswH13n7iidDZ6oKdTId09h1OG0"]  # Replace with your three Google Gemini API keys
 MAX_BATCHES = 3  # Maximum number of API calls for test generation
 
 # Ensure output directory exists

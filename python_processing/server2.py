@@ -5,8 +5,10 @@ import subprocess
 import threading
 import requests
 from thread_batch import main_fn
+from flask_cors import CORS  # Import CORS
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # ✅ Local File Paths
 TEST_CASES_FILE = "test_cases.json"       # Test case file (local)
@@ -107,7 +109,6 @@ def get_report():
     if os.path.exists(REPORT_FILE):
         return send_file(REPORT_FILE, as_attachment=True)
     return jsonify({"error": "Report not found"}), 404
-
 
 
 

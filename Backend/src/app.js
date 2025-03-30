@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import testRouter from "./Routes/expr.routes.js"
 import userRouter from "./Routes/users.routes.js"
+import processRouter from "./Routes/process.routes.js"
 const app = express();
 
 app.use(
@@ -19,6 +20,7 @@ app.use(express.json());
 
 app.use("/api/test1/exprs" , testRouter)
 app.use("/api/users" , userRouter)
+app.use("/api/process" , processRouter)
 app.get("/api/testing", (req, res) => {
   return res.json({"ok" : "ok"})
 });
