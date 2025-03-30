@@ -1,0 +1,163 @@
+{
+  "test_cases": [
+    {
+      "id": "TC001",
+      "name": "Successful Login",
+      "description": "Verify successful login with valid credentials.",
+      "steps": [
+        "Step 1: Enter valid username or email address.",
+        "Step 2: Enter valid password.",
+        "Step 3: Click the 'Sign in' button."
+      ],
+      "expected_results": [
+        "Expected Result 1: User is redirected to the home page or dashboard."
+      ],
+      "elements": [
+        {
+          "step": "Step 1",
+          "description": "Username/Email input field",
+          "type": "input",
+          "selectors": {
+            "id": "login_field",
+            "name": "login"
+          }
+        },
+        {
+          "step": "Step 2",
+          "description": "Password input field",
+          "type": "input",
+          "selectors": {
+            "id": "password",
+            "name": "password"
+          }
+        },
+        {
+          "step": "Step 3",
+          "description": "Sign in button",
+          "type": "submit",
+          "selectors": {
+            "css": "input[type='submit'][name='commit']",
+            "xpath": "//input[@value='Sign in']"
+          }
+        }
+      ],
+      "test_data": [
+        {
+          "email": "testuser@example.com",
+          "password": "validpassword"
+        }
+      ]
+    },
+    {
+      "id": "TC002",
+      "name": "Failed Login - Invalid Credentials",
+      "description": "Verify login failure with invalid credentials.",
+      "steps": [
+        "Step 1: Enter invalid username or email address.",
+        "Step 2: Enter invalid password.",
+        "Step 3: Click the 'Sign in' button."
+      ],
+      "expected_results": [
+        "Expected Result 1: An error message is displayed indicating invalid credentials."
+      ],
+      "elements": [
+        {
+          "step": "Step 1",
+          "description": "Username/Email input field",
+          "type": "input",
+          "selectors": {
+            "id": "login_field"
+          }
+        },
+        {
+          "step": "Step 2",
+          "description": "Password input field",
+          "type": "input",
+          "selectors": {
+            "id": "password"
+          }
+        },
+        {
+          "step": "Step 3",
+          "description": "Sign in button",
+          "type": "submit",
+          "selectors": {
+            "css": "input[type='submit'][name='commit']",
+            "xpath": "//input[@value='Sign in']"
+          }
+        }
+      ],
+      "test_data": [
+        {
+          "email": "invaliduser@example.com",
+          "password": "wrongpassword"
+        }
+      ]
+    },
+    {
+      "id": "TC003",
+      "name": "Forgot Password Navigation",
+      "description": "Verify navigation to the 'Forgot password?' page.",
+      "steps": [
+        "Step 1: Click the 'Forgot password?' link."
+      ],
+      "expected_results": [
+        "Expected Result 1: User is redirected to the password reset page."
+      ],
+      "elements": [
+        {
+          "step": "Step 1",
+          "description": "Forgot password link",
+          "type": "link",
+          "selectors": {
+            "id": "forgot-password"
+          }
+        }
+      ]
+    },
+    {
+      "id": "TC004",
+      "name": "Create Account Navigation",
+      "description": "Verify navigation to the 'Create an account' page.",
+      "steps": [
+        "Step 1: Click the 'Create an account' link."
+      ],
+      "expected_results": [
+        "Expected Result 1: User is redirected to the account creation page."
+      ],
+      "elements": [
+        {
+          "step": "Step 1",
+          "description": "Create an account link",
+          "type": "link",
+          "selectors": {
+            "css": "a[href^='/signup']",
+            "xpath": "//a[contains(@href, '/signup')]"
+          }
+        }
+      ]
+    },
+    {
+      "id": "TC005",
+      "name": "Passkey Sign in attempt",
+      "description": "Verify the passkey sign in button exists and can be clicked.",
+      "steps": [
+        "Step 1: Click the 'Sign in with a passkey' button."
+      ],
+      "expected_results": [
+        "Expected Result 1: The browser's passkey prompt is displayed (or an error if unsupported)."
+      ],
+      "elements": [
+        {
+          "step": "Step 1",
+          "description": "Passkey Sign in button",
+          "type": "button",
+          "selectors": {
+            "css": ".js-webauthn-confirm-button",
+            "xpath": "//button[contains(span/text(), 'Sign in with a passkey')]"
+          }
+        }
+      ]
+    }
+  ]
+}

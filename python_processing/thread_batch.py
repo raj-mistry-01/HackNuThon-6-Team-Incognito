@@ -23,7 +23,10 @@ from multiprocessing import Process, Queue
 WEBSITE_URL = "https://github.com/login"  # URL of the website to scrape
 OUTPUT_FOLDER = "./git"  # Folder to store generated test scripts
 # API_KEYS = ["AIzaSyDQd8ihGxz2bCA9lH-5pyyKYQjgIyolI3E", "AIzaSyCF6R7qDpglneMDgYun360O52A_UUeO-QM", "AIzaSyAETp5SEGNHvgfTlDizjfG8Bub16vh-D5w"]# Replace with your three Google Gemini API keys
-API_KEYS = ["AIzaSyCHtvnqM8kSKsrXk6EuGM58WGIKL0cABWY", "AIzaSyCoJHzEpD2rumexyEeL4rTRxkihGI8Dg78", "AIzaSyBxlPIxAswH13n7iidDZ6oKdTId09h1OG0"]  # Replace with your three Google Gemini API keys
+# API_KEYS = ["AIzaSyCHtvnqM8kSKsrXk6EuGM58WGIKL0cABWY", "AIzaSyCoJHzEpD2rumexyEeL4rTRxkihGI8Dg78", "AIzaSyBxlPIxAswH13n7iidDZ6oKdTId09h1OG0"]  # Replace with your three Google Gemini API keys
+# API_KEYS = ["AIzaSyDttlWIwelPIO5kNwDocS37AvWYmV0CrBE", "AIzaSyDv4H3hFt0kLfd6WZ6NMavtmIPEPwBQ5Ik", "AIzaSyBV03R5uiyD26kzKlbib46jMBoE8of6vT0"]  # Replace with your three Google Gemini API keys
+# API_KEYS = ["AIzaSyCVkreqWVPxXAd2vo6YfG0NEcS8zNy-GYc", "AIzaSyBapmatSeQDTI0J60PwE7t-I5uAgLQp2vs", "AIzaSyCWdKzqfMgSJ8ryUNTXdqT2EtMQdktTkIk"]
+API_KEYS = ["AIzaSyBOQMW2MWVtkbIALSeFGjOg5ny9GQmPfTA", "AIzaSyC9sMyfAAapqttB1jNBuYBj4aqUshC1-Sk", "AIzaSyDB6rWqA1PEaux2qizqX9r9EDP12houoSY"]  # Replace with your three Google Gemini API keys
 MAX_BATCHES = 3  # Maximum number of API calls for test generation
 
 # Ensure output directory exists

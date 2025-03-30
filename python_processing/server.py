@@ -49,7 +49,7 @@ test_execution:
   script:
     - echo "🔥 Checking test status from the server..."
     - |
-      response=$(curl -s   https://4dd0-202-131-110-12.ngrok-free.app/test-status)
+      response=$(curl -s   https://15f1-2401-4900-7903-cc20-55b3-3a11-a61f-366f.ngrok-free.app/test-status)
       echo "Server Response: $response"
 
       # ✅ Extract the 'status' field from the response
@@ -57,6 +57,7 @@ test_execution:
 
       # ✅ Proper multi-line block with correct YAML syntax
       if [ "$status" == "true" ]; then
+      
         echo "✅ All tests passed!"
         exit 0  # Success
       else

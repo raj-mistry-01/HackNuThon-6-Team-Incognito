@@ -1,0 +1,22 @@
+{
+  "id": "TC005",
+  "name": "Passkey Sign in attempt",
+  "description": "Verify the passkey sign in button exists and can be clicked.",
+  "steps": [
+    "Step 1: Click the 'Sign in with a passkey' button."
+  ],
+  "expected_results": [
+    "Expected Result 1: The browser's passkey prompt is displayed (or an error if unsupported)."
+  ],
+  "elements": [
+    {
+      "step": "Step 1",
+      "description": "Passkey Sign in button",
+      "type": "button",
+      "selectors": {
+        "css": ".js-webauthn-confirm-button",
+        "xpath": "//button[contains(span/text(), 'Sign in with a passkey')]"
+      }
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "execution_date": "2025-03-30 15:31:07",
+  "total_duration_seconds": 54.774736,
+  "total_tests": 5,
+  "passed_tests": 3,
+  "failed_tests": 2,
+  "results": [
+    {
+      "test_id": "TC001",
+      "test_name": "Successful Login",
+      "script_path": "git\\test_TC001\\test_TC001_script.py",
+      "testcase_path": "git\\test_TC001\\testcase.json",
+      "start_time": "2025-03-30 15:31:07",
+      "passed": true,
+      "end_time": "2025-03-30 15:31:20"
+    },
+    {
+      "test_id": "TC002",
+      "test_name": "Failed Login - Invalid Credentials",
+      "script_path": "git\\test_TC002\\test_TC002_script.py",
+      "testcase_path": "git\\test_TC002\\testcase.json",
+      "start_time": "2025-03-30 15:31:20",
+      "passed": true,
+      "end_time": "2025-03-30 15:31:31"
+    },
+    {
+      "test_id": "TC003",
+      "test_name": "Forgot Password Navigation",
+      "script_path": "git\\test_TC003\\test_TC003_script.py",
+      "testcase_path": "git\\test_TC003\\testcase.json",
+      "start_time": "2025-03-30 15:31:31",
+      "passed": true,
+      "end_time": "2025-03-30 15:31:40"
+    },
+    {
+      "test_id": "TC004",
+      "test_name": "Create Account Navigation",
+      "script_path": "git\\test_TC004\\test_TC004_script.py",
+      "testcase_path": "git\\test_TC004\\testcase.json",
+      "start_time": "2025-03-30 15:31:40",
+      "passed": false,
+      "end_time": "2025-03-30 15:31:51"
+    },
+    {
+      "test_id": "TC005",
+      "test_name": "Passkey Sign in attempt",
+      "script_path": "git\\test_TC005\\test_TC005_script.py",
+      "testcase_path": "git\\test_TC005\\testcase.json",
+      "start_time": "2025-03-30 15:31:51",
+      "passed": false,
+      "end_time": "2025-03-30 15:32:02"
+    }
+  ]
+}

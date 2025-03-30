@@ -8,7 +8,7 @@ from thread_batch import main_fn
 from flask_cors import CORS  # Import CORS
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": "https://incognito-three-chi.vercel.app"}})
 
 # ✅ Local File Paths
 TEST_CASES_FILE = "test_cases.json"       # Test case file (local)
