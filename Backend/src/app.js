@@ -8,7 +8,7 @@ const app = express();
 app.use(
   cors({
     origin: "https://incognito-three-chi.vercel.app/", 
-    credentials: true,
+    // credentials: true,
   })
 );
 
