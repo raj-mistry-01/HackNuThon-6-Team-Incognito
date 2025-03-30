@@ -10,59 +10,54 @@ import {Response} from "../Models/Reponse.model.js";
 import { Project } from "../Models/Project.model.js"
 
 // Add JSON data to response.jsonobjects and update numOfTests
-import multer from "multer";
-import fs from "fs";
-import os from "os"
+// import multer from "multer";
+// import fs from "fs";
+// import os from "os"
 
 
-// Multer configuration to handle JSON file uploads
-const upload = multer({ dest: os.tmpdir() });
+// // Multer configuration to handle JSON file uploads
+// const upload = multer({ dest: os.tmpdir() });
 
-// Middleware to handle file upload
-export const uploadJsonMiddleware = upload.single("jsonFile");
+// // Middleware to handle file upload
+// export const uploadJsonMiddleware = upload.single("jsonFile");
 
 // Add JSON data to response.jsonobjects and update numOfTests
 import mongoose from "mongoose";
 
 export const addJsonToResponse = async (req, res) => {
   try {
-    console.log("Received file:", req.file);
+    // console.log("Received file:", req.file);
     console.log("Received body:", req.body);
 
-    const { projectId } = req.body;
+    const { projectId , datak } = req.body;
 
-    if (!projectId || !req.file) {
+    if (!projectId ) {
       return res
         .status(400)
-        .json({ error: "Project ID and JSON file are required" });
+        .json({ error: "Project ID is required" });
     }
 
-    const jsonFilePath = req.file.path;
-    console.log("JSON File Path:", jsonFilePath);
+    
+   
 
-    let jsonData;
-    try {
-      jsonData = JSON.parse(fs.readFileSync(jsonFilePath, "utf-8"));
-    } catch (err) {
-      console.error("Error parsing JSON file:", err);
-      return res.status(400).json({ error: "Invalid JSON file format" });
-    }
+    // let datak;
+ 
 
     let responseDoc = await Response.findOne({ project: projectId });
 
     if (!responseDoc) {
       responseDoc = new Response({
         project: projectId,
-        jsonobjects: [jsonData],
+        jsonobjects: [datak],
         numoftest: 0,
       });
     } else {
-      responseDoc.jsonObjects.push(jsonData);
+      responseDoc.jsonObjects.push(datak);
       responseDoc.numOfTests += 1;
     }
 
     await responseDoc.save();
-    fs.unlinkSync(jsonFilePath);
+    // fs.unlinkSync(jsonFilePath);
 
     res.status(200).json({
       message: "JSON data added successfully",

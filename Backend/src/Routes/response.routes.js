@@ -1,6 +1,5 @@
 import express from "express";
 import {
-  uploadJsonMiddleware,
   addJsonToResponse,
   getTestResults,
   getResponse,
@@ -8,7 +7,7 @@ import {
 
 const router = express.Router();
 
-router.post("/add-json", uploadJsonMiddleware, addJsonToResponse);
+router.post("/add-json", addJsonToResponse);
 router.post("/test-results", getTestResults);
 router.post("/getResponse", getResponse);
 

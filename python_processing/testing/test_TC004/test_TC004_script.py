@@ -5,13 +5,14 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import NoSuchElementException, TimeoutException
+from selenium.common.exceptions import *
 
-class TestLogin(unittest.TestCase):
+class TestLoginSQLInjection(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.Chrome()  # Or any other browser
         self.driver.maximize_window()
+        self.test_passed = True
 
     def tearDown(self):
         self.driver.quit()
@@ -30,67 +31,98 @@ class TestLogin(unittest.TestCase):
                     return wait.until(EC.presence_of_element_located((By.XPATH, selector_value)))
                 elif selector_type == "name":
                     return wait.until(EC.presence_of_element_located((By.NAME, selector_value)))
-                elif selector_type == "type":
-                    return wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, f'[type="{selector_value}"]')))
-                elif selector_type == "value":
-                    return wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, f'[value="{selector_value}"]')))
-
             except (NoSuchElementException, TimeoutException):
-                continue
+                continue  # Try the next selector
         raise Exception(f"Could not locate element with selectors: {selectors}")
-
-
-    def test_login_domainless_email(self):
+    
+    def check_for_errors(self):
+        # Check for console errors
         try:
-            with open(os.path.join(os.path.dirname(__file__), "testcase.json"), "r") as f:
-                test_data_list = json.load(f).get("test_data", [])
-        except (FileNotFoundError, json.JSONDecodeError):
-            test_data_list = [{"email": "test", "password": "password123"}]  # Default values
+            console_logs = self.driver.get_log('browser')
+            for log in console_logs:
+                if log['level'] == 'SEVERE':  # Or other relevant log levels
+                    print(f"Console Error: {log['message']}")
+                    self.test_passed = False
+                    return  # Stop checking if a severe error is found
+        except Exception as e:
+            print(f"Error checking console logs: {e}")
+            self.test_passed = False
+            return
 
-        overall_result = True
-        for test_data in test_data_list:
+        # Check for URL errors (e.g., error parameters)
+        try:
+            current_url = self.driver.current_url
+            if "error" in current_url.lower():  # Or other error indicators
+                print(f"URL Error: {current_url}")
+                self.test_passed = False
+                return
+        except Exception as e:
+            print(f"Error checking URL: {e}")
+            self.test_passed = False
+            return
+
+        # Check for error elements on the page
+        try:
+            error_element = self.driver.find_element(By.ID, "error_div") # Replace with actual error element selector if known
+            if error_element.is_displayed():
+                print(f"Page Error: {error_element.text}")
+                self.test_passed = False
+                return
+        except NoSuchElementException:
+            pass # No error element found, which is expected in some cases
+        except Exception as e:
+            print(f"Error checking for error element: {e}")
+            self.test_passed = False
+            return
+
+
+    def test_login_sql_injection(self):
+        try:
+            with open("testcase.json", "r") as f:
+                test_data = json.load(f).get("test_data", [])
+        except FileNotFoundError:
+            test_data = []
+
+        if not test_data:
+            test_data = [{}]  # Run with default values if no test data
+
+        for data in test_data:
+            self.driver.get("https://github.com/login")
+
+            # Step 1: Enter SQL injection string
+            username_field = self.locate_element({"id": "login_field"})
+            username_field.clear()
+            username_field.send_keys("' OR '1'='1")
+
+
+            # Step 2: Enter password (any value)
+            password_field = self.locate_element({"id": "password"})
+            password_field.clear()
+            password_field.send_keys("dummy_password")
+
+            # Step 3: Click Sign in
+            sign_in_button = self.locate_element({"css": "input[type='submit']", "xpath": "//input[@value='Sign in']"})
+            sign_in_button.click()
+            
+            self.check_for_errors()
+
+            # Assertions (Generic login failure expected - adjust as needed based on actual behavior)
             try:
-                self.driver.get("https://github.com/login")
-
-                email_field = self.locate_element({"id": "login_field"})
-                email_field.send_keys(test_data["email"])
-
-                password_field = self.locate_element({"id": "password"})
-                password_field.send_keys(test_data["password"])
-
-                sign_in_button = self.locate_element({"type": "submit", "value": "Sign in"})
-                sign_in_button.click()
-
-                # Error Handling and Assertions
-                try:
-                    error_message = self.driver.find_element(By.CSS_SELECTOR, ".flash-error") # Generic error selector
-                    print(f"Test with {test_data} - Passed (Error message displayed: {error_message.text})")
-                    self.assertTrue(error_message.is_displayed()) # Check if error is displayed
-                except NoSuchElementException:
-                    print(f"Test with {test_data} - Failed (No error message displayed)")
-                    overall_result = False
-                    self.fail("No error message displayed")
-
-                # Check for errors in console
-                for entry in self.driver.get_log('browser'):
-                    if entry['level'] == 'SEVERE':
-                        print(f"Console error: {entry['message']}")
-                        overall_result = False
-                        self.fail(f"Console error: {entry['message']}")
-
+                # Example: Check if an error message is displayed (replace with actual selector)
+                error_message = self.locate_element({"id": "js-flash-container .flash-error"}) # Example selector - replace with actual
+                self.assertTrue(error_message.is_displayed(), "Login should have failed, but no error message was found.")
+            except NoSuchElementException:
+                self.test_passed = False # Or handle differently based on expected behavior
+                print("Login failed, but no expected error message element was found.")
             except Exception as e:
-                print(f"Test with {test_data} - Failed: {e}")
-                overall_result = False
-                self.fail(str(e))
+                self.test_passed = False
+                print(f"An unexpected error occurred during assertion: {e}")
 
-        return overall_result
+
+        print("Test Passed" if self.test_passed else "Test Failed")
+        return self.test_passed
 
 
 if __name__ == "__main__":
-    result = unittest.main(exit=False).result
-    if len(result.failures) + len(result.errors) == 0:
-        print("Overall Test Result: PASSED")
-        exit(0)  # Exit code 0 for pass
-    else:
-        print("Overall Test Result: FAILED")
-        exit(1)  # Exit code 1 for fail
+    result = TestLoginSQLInjection().test_login_sql_injection()
+    exit(not result) # Exit with 1 if test failed, 0 if passed

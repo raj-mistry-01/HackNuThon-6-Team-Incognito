@@ -1,14 +1,14 @@
 {
   "id": "TC003",
-  "name": "Login with extremely long email",
-  "description": "Verify the behavior when attempting to log in with an extremely long email address.",
+  "name": "Login with email address containing spaces",
+  "description": "Verify the behavior when attempting to log in with an email address containing spaces.",
   "steps": [
-    "Step 1: Enter a very long email address (e.g., exceeding 254 characters) in the 'Username or email address' field.",
-    "Step 2: Enter a password in the 'Password' field.",
+    "Step 1: Enter an email address containing spaces into the 'Username or email address' field.",
+    "Step 2: Enter a valid password into the 'Password' field.",
     "Step 3: Click the 'Sign in' button."
   ],
   "expected_results": [
-    "Expected result 1: The application should either truncate the email address or display an error message indicating that the email address is too long."
+    "Expected result 1: An error message should be displayed indicating that the email address is invalid."
   ],
   "elements": [
     {
@@ -32,15 +32,10 @@
       "description": "Sign in button",
       "type": "input",
       "selectors": {
-        "type": "submit",
-        "value": "Sign in"
+        "css": "input[type='submit']",
+        "xpath": "//input[@value='Sign in']"
       }
     }
   ],
-  "test_data": [
-    {
-      "email": "testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest@example.com",
-      "password": "password123"
-    }
-  ]
+  "test_data": []
 }

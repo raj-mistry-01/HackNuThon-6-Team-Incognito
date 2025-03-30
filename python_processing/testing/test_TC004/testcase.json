@@ -1,19 +1,20 @@
 {
   "id": "TC004",
-  "name": "Login with domain-less email",
-  "description": "Verify the behavior when attempting to log in with an email address without a domain.",
+  "name": "Login with SQL Injection Attempt",
+  "description": "Verify the system's resilience against SQL injection attacks.",
   "steps": [
-    "Step 1: Enter an email address without a domain (e.g., 'test') in the 'Username or email address' field.",
-    "Step 2: Enter a password in the 'Password' field.",
-    "Step 3: Click the 'Sign in' button."
+    "Step 1: In the 'Username or email address' field, enter a typical SQL injection string like:  `' OR '1'='1`",
+    "Step 2: Enter any password (it doesn't matter for this test).",
+    "Step 3: Click 'Sign in'."
   ],
   "expected_results": [
-    "Expected result 1: An error message should be displayed indicating an invalid email format."
+    "Expected Result 1: The login should fail.  No error message specific to SQL injection should be revealed, but a generic login failure message is expected.",
+    "Expected Result 2: The application should not exhibit any unusual behavior or display any database-related errors."
   ],
   "elements": [
     {
       "step": "Step 1",
-      "description": "Username or email address input field",
+      "description": "Username/Email field",
       "type": "input",
       "selectors": {
         "id": "login_field"
@@ -21,7 +22,7 @@
     },
     {
       "step": "Step 2",
-      "description": "Password input field",
+      "description": "Password field",
       "type": "input",
       "selectors": {
         "id": "password"
@@ -30,17 +31,12 @@
     {
       "step": "Step 3",
       "description": "Sign in button",
-      "type": "input",
+      "type": "submit",
       "selectors": {
-        "type": "submit",
-        "value": "Sign in"
+        "css": "input[type='submit']",
+        "xpath": "//input[@value='Sign in']"
       }
     }
   ],
-  "test_data": [
-    {
-      "email": "test",
-      "password": "password123"
-    }
-  ]
+  "test_data": []
 }
