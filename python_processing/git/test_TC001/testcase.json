@@ -3,25 +3,24 @@
   "name": "Successful Login",
   "description": "Verify successful login with valid credentials.",
   "steps": [
-    "Step 1: Navigate to the login page.",
-    "Step 2: Enter a valid email address.",
-    "Step 3: Enter a valid password.",
-    "Step 4: Click the Login button."
+    "Step 1: Enter valid username or email address.",
+    "Step 2: Enter valid password.",
+    "Step 3: Click the 'Sign in' button."
   ],
   "expected_results": [
-    "Expected Result 1: User should be redirected to the home page or dashboard."
+    "Expected Result 1: User is redirected to the home page or dashboard."
   ],
   "elements": [
     {
-      "step": "Step 2",
-      "description": "Email input field",
+      "step": "Step 1",
+      "description": "Username/Email input field",
       "type": "input",
       "selectors": {
-        "id": "email"
+        "id": "login_field"
       }
     },
     {
-      "step": "Step 3",
+      "step": "Step 2",
       "description": "Password input field",
       "type": "input",
       "selectors": {
@@ -29,18 +28,18 @@
       }
     },
     {
-      "step": "Step 4",
-      "description": "Login button",
+      "step": "Step 3",
+      "description": "Sign in button",
       "type": "button",
       "selectors": {
-        "id": "login"
+        "css": ".js-sign-in-button"
       }
     }
   ],
   "test_data": [
     {
-      "email": "test@example.com",
-      "password": "password123"
+      "email": "testuser@example.com",
+      "password": "validpassword"
     }
   ]
 }

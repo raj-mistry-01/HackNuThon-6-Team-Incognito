@@ -1,351 +1,1471 @@
 {
   "elements": [
     {
-      "element_type": "div",
-      "id": "root",
+      "element_type": "script",
+      "id": "client-env",
       "classes": [],
-      "text": "IncognitoLoginSign Up\ud83c\udf1eWelcome BackLoginDon't have ...",
+      "text": "{\"locale\":\"en\",\"featureFlags\":[\"a11y_quote_reply_f...",
+      "attributes": {
+        "type": "application/json"
+      }
+    },
+    {
+      "element_type": "style",
+      "id": "ms-consent-banner-main-styles",
+      "classes": [],
+      "text": ".w8hcgFksdo30C8w-bygqu{color:#000}.ydkKdaztSS0AeHW...",
       "attributes": {}
     },
     {
-      "element_type": "div",
-      "id": "tsparticles",
+      "element_type": "style",
+      "id": "ms-consent-banner-theme-styles",
       "classes": [],
-      "text": "",
-      "attributes": {}
+      "text": "._23tra1HsiiP6cT-Cka-ycB {\n            background-...",
+      "attributes": {
+        "type": "text/css"
+      }
     },
     {
-      "element_type": "input",
-      "id": "email",
+      "element_type": "script",
+      "id": "__PRIMER_DATA_:r0:__",
+      "classes": [],
+      "text": "{\"resolvedServerColorMode\":\"night\"}",
+      "attributes": {
+        "type": "application/json"
+      }
+    },
+    {
+      "element_type": "button",
+      "id": "icon-button-fafe8d69-ad11-43ad-8c03-6c7f2114cf2d",
       "classes": [
-        "w-full",
-        "px-4",
-        "py-3",
-        "rounded-lg",
-        "bg-gray-800/50",
-        "border-gray-700",
-        "text-white",
-        "placeholder-gray-400",
-        "border",
-        "focus:outline-none",
-        "focus:border-purple-500",
-        "focus:ring-2",
-        "focus:ring-purple-200",
-        "transform",
-        "transition-all",
-        "duration-300"
+        "Button",
+        "Button--iconOnly",
+        "Button--invisible",
+        "Button--medium",
+        "flash-close",
+        "js-flash-close"
       ],
       "text": "",
       "attributes": {
-        "type": "email",
-        "placeholder": "Email",
-        "value": ""
+        "aria-labelledby": "tooltip-5f6e22b2-8d53-4931-814b-b4260ac42d1c",
+        "type": "button",
+        "data-view-component": "true"
+      }
+    },
+    {
+      "element_type": "tool-tip",
+      "id": "tooltip-5f6e22b2-8d53-4931-814b-b4260ac42d1c",
+      "classes": [
+        "sr-only",
+        "position-absolute"
+      ],
+      "text": "Dismiss alert",
+      "attributes": {
+        "for": "icon-button-fafe8d69-ad11-43ad-8c03-6c7f2114cf2d",
+        "popover": "manual",
+        "data-direction": "s",
+        "data-type": "label",
+        "data-view-component": "true",
+        "aria-hidden": "true",
+        "role": "tooltip"
+      }
+    },
+    {
+      "element_type": "div",
+      "id": "start-of-content",
+      "classes": [
+        "show-on-focus"
+      ],
+      "text": "",
+      "attributes": {}
+    },
+    {
+      "element_type": "div",
+      "id": "login",
+      "classes": [
+        "auth-form",
+        "px-3"
+      ],
+      "text": "Sign in to GitHub\n\n\n\n\n\n\n\n\n\n\n\n\n \n\n      Username or...",
+      "attributes": {
+        "data-hpc": ""
+      }
+    },
+    {
+      "element_type": "div",
+      "id": "js-flash-container",
+      "classes": [
+        "flash-container"
+      ],
+      "text": "",
+      "attributes": {
+        "data-turbo-replace": ""
+      }
+    },
+    {
+      "element_type": "input",
+      "id": "add_account",
+      "classes": [
+        "form-control"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "add_account",
+        "autocomplete": "off"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": "login_field",
+      "classes": [
+        "form-control",
+        "input-block",
+        "js-login-field"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "text",
+        "name": "login",
+        "autocapitalize": "off",
+        "autocorrect": "off",
+        "autocomplete": "username",
+        "autofocus": "autofocus",
+        "required": "required"
       }
     },
     {
       "element_type": "input",
       "id": "password",
       "classes": [
-        "w-full",
-        "px-4",
-        "py-3",
-        "rounded-lg",
-        "bg-gray-800/50",
-        "border-gray-700",
-        "text-white",
-        "placeholder-gray-400",
-        "border",
-        "focus:outline-none",
-        "focus:border-purple-500",
-        "transform",
-        "transition-all",
-        "duration-300"
+        "form-control",
+        "form-control",
+        "input-block",
+        "js-password-field"
       ],
       "text": "",
       "attributes": {
         "type": "password",
-        "placeholder": "Password",
-        "value": ""
+        "name": "password",
+        "autocomplete": "current-password",
+        "required": "required"
+      }
+    },
+    {
+      "element_type": "a",
+      "id": "forgot-password",
+      "classes": [
+        "label-link",
+        "position-absolute",
+        "top-0",
+        "right-0"
+      ],
+      "text": "Forgot password?",
+      "attributes": {
+        "href": "/password_reset"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": "return_to",
+      "classes": [
+        "form-control"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "return_to",
+        "value": "https://github.com/login",
+        "autocomplete": "off"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": "allow_signup",
+      "classes": [
+        "form-control"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "allow_signup",
+        "autocomplete": "off"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": "client_id",
+      "classes": [
+        "form-control"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "client_id",
+        "autocomplete": "off"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": "integration",
+      "classes": [
+        "form-control"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "integration",
+        "autocomplete": "off"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": "return_to",
+      "classes": [
+        "form-control"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "return_to",
+        "value": "https://github.com/login",
+        "autocomplete": "off"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": "allow_signup",
+      "classes": [
+        "form-control"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "allow_signup",
+        "autocomplete": "off"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": "client_id",
+      "classes": [
+        "form-control"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "client_id",
+        "autocomplete": "off"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": "integration",
+      "classes": [
+        "form-control"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "integration",
+        "autocomplete": "off"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": "return_to",
+      "classes": [
+        "form-control"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "return_to",
+        "value": "https://github.com/login",
+        "autocomplete": "off"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": "allow_signup",
+      "classes": [
+        "form-control"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "allow_signup",
+        "autocomplete": "off"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": "client_id",
+      "classes": [
+        "form-control"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "client_id",
+        "autocomplete": "off"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": "integration",
+      "classes": [
+        "form-control"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "integration",
+        "autocomplete": "off"
+      }
+    },
+    {
+      "element_type": "ghcc-consent",
+      "id": "ghcc",
+      "classes": [
+        "position-fixed",
+        "bottom-0",
+        "left-0"
+      ],
+      "text": "",
+      "attributes": {
+        "style": "z-index: 999999",
+        "data-initial-cookie-consent-allowed": "true",
+        "data-cookie-consent-required": "false",
+        "data-catalyst": ""
+      }
+    },
+    {
+      "element_type": "div",
+      "id": "ajax-error-message",
+      "classes": [
+        "ajax-error-message",
+        "flash",
+        "flash-error"
+      ],
+      "text": "You can\u2019t perform that action at this time.",
+      "attributes": {
+        "hidden": ""
+      }
+    },
+    {
+      "element_type": "template",
+      "id": "site-details-dialog",
+      "classes": [],
+      "text": "",
+      "attributes": {}
+    },
+    {
+      "element_type": "template",
+      "id": "snippet-clipboard-copy-button",
+      "classes": [],
+      "text": "",
+      "attributes": {}
+    },
+    {
+      "element_type": "template",
+      "id": "snippet-clipboard-copy-button-unpositioned",
+      "classes": [],
+      "text": "",
+      "attributes": {}
+    },
+    {
+      "element_type": "div",
+      "id": "js-global-screen-reader-notice",
+      "classes": [
+        "sr-only",
+        "mt-n1"
+      ],
+      "text": "",
+      "attributes": {
+        "aria-live": "polite",
+        "aria-atomic": "true"
+      }
+    },
+    {
+      "element_type": "div",
+      "id": "js-global-screen-reader-notice-assertive",
+      "classes": [
+        "sr-only",
+        "mt-n1"
+      ],
+      "text": "",
+      "attributes": {
+        "aria-live": "assertive",
+        "aria-atomic": "true"
       }
     },
     {
       "element_type": "button",
-      "id": "login",
+      "id": null,
       "classes": [
-        "w-full",
-        "py-3",
-        "font-semibold",
-        "rounded-lg",
-        "bg-gradient-to-r",
-        "from-purple-500",
-        "to-pink-500",
-        "text-white",
-        "hover:from-pink-500",
-        "hover:to-purple-500",
-        "transform",
-        "hover:-translate-y-1",
-        "transition-all",
-        "duration-300",
-        "hover:shadow-[0_10px_20px_rgba(168,_85,_247,_0.4)]"
+        "flash-close",
+        "js-flash-close"
       ],
-      "text": "Login",
-      "attributes": {}
+      "text": "",
+      "attributes": {
+        "autofocus": "",
+        "type": "button",
+        "aria-label": "Dismiss this message"
+      }
     },
     {
       "element_type": "button",
       "id": null,
       "classes": [
-        "p-2",
-        "rounded-lg",
-        "hover:bg-gray-700",
-        "text-yellow-300"
+        "flash-close",
+        "js-flash-close"
       ],
-      "text": "\ud83c\udf1e",
-      "attributes": {}
+      "text": "",
+      "attributes": {
+        "type": "button",
+        "aria-label": "Dismiss this message"
+      }
     },
     {
       "element_type": "button",
       "id": null,
       "classes": [
-        "text-purple-500",
-        "hover:text-pink-500",
-        "transition-colors",
-        "duration-300"
+        "js-webauthn-confirm-button",
+        "btn",
+        "btn-block",
+        "Button--secondary",
+        "Button--medium",
+        "Button",
+        "mt-0"
       ],
-      "text": "Sign up",
-      "attributes": {}
+      "text": "Sign in with a passkey",
+      "attributes": {
+        "data-target": "webauthn-get.button",
+        "data-action": "click:webauthn-get#prompt",
+        "data-retry-message": "Retry passkey",
+        "type": "button",
+        "data-view-component": "true"
+      }
+    },
+    {
+      "element_type": "button",
+      "id": null,
+      "classes": [
+        "Button--link",
+        "Button--medium",
+        "Button"
+      ],
+      "text": "Sign in with a passkey",
+      "attributes": {
+        "data-action": "click:webauthn-subtle#prompt",
+        "type": "button",
+        "data-view-component": "true"
+      }
+    },
+    {
+      "element_type": "button",
+      "id": null,
+      "classes": [
+        "Link--secondary",
+        "underline-on-hover",
+        "border-0",
+        "p-0",
+        "color-bg-transparent"
+      ],
+      "text": "Manage cookies",
+      "attributes": {
+        "type": "button",
+        "data-action": "click:cookie-consent-link#showConsentManagement",
+        "data-analytics-event": "{\"location\":\"footer\",\"action\":\"cookies\",\"context\":\"subfooter\",\"tag\":\"link\",\"label\":\"cookies_link_subfooter_footer\"}"
+      }
+    },
+    {
+      "element_type": "button",
+      "id": null,
+      "classes": [
+        "Link--secondary",
+        "underline-on-hover",
+        "border-0",
+        "p-0",
+        "color-bg-transparent"
+      ],
+      "text": "Do not share my personal information",
+      "attributes": {
+        "type": "button",
+        "data-action": "click:cookie-consent-link#showConsentManagement",
+        "data-analytics-event": "{\"location\":\"footer\",\"action\":\"dont_share_info\",\"context\":\"subfooter\",\"tag\":\"link\",\"label\":\"dont_share_info_link_subfooter_footer\"}"
+      }
+    },
+    {
+      "element_type": "button",
+      "id": null,
+      "classes": [
+        "flash-close",
+        "js-ajax-error-dismiss"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "button",
+        "aria-label": "Dismiss error"
+      }
+    },
+    {
+      "element_type": "button",
+      "id": null,
+      "classes": [
+        "Box-btn-octicon",
+        "m-0",
+        "btn-octicon",
+        "position-absolute",
+        "right-0",
+        "top-0"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "button",
+        "aria-label": "Close dialog",
+        "data-close-dialog": ""
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "data-csrf": "true",
+        "name": "authenticity_token",
+        "value": "a43hI0gTpOhXI9gJ2d9NL14flam4f8HmzWjR3ZReqL5TEBRdxyyAL7A+igFkpZ6DqkWLgQQQgdDqpwilmx3RkA=="
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "webauthn-conditional",
+        "value": "undefined"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [
+        "js-support"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "javascript-support",
+        "value": "true"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [
+        "js-webauthn-support"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "webauthn-support",
+        "value": "supported"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [
+        "js-webauthn-iuvpaa-support"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "webauthn-iuvpaa-support",
+        "value": "supported"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [
+        "form-control"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "text",
+        "name": "required_field_bf3d",
+        "hidden": "hidden"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [
+        "form-control"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "timestamp",
+        "value": "1743301609637"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [
+        "form-control"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "timestamp_secret",
+        "value": "42372489b053f676dc319cae97cf835f8ca6526995d8074b135bf1f165c809df"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [
+        "btn",
+        "btn-primary",
+        "btn-block",
+        "js-sign-in-button"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "submit",
+        "name": "commit",
+        "value": "Sign in",
+        "data-disable-with": "Signing in\u2026",
+        "data-signin-label": "Sign in",
+        "data-sso-label": "Sign in with your identity provider",
+        "development": "false",
+        "disable-emu-sso": "false"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "authenticity_token",
+        "value": "ehSeyY5w0NA3usQdszenvT7QRZKgLXIE8ef5juI-XcZCiWu3AU_0F9CnlhUOTXQRyopbuhxCMjLWKCD27X0k6A"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [
+        "js-conditional-webauthn-response"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "webauthn_response"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "webauthn-conditional",
+        "value": "true"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [
+        "js-support"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "javascript-support",
+        "value": "true"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [
+        "js-webauthn-support"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "webauthn-support",
+        "value": "supported"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [
+        "js-webauthn-iuvpaa-support"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "webauthn-iuvpaa-support",
+        "value": "supported"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [
+        "form-control"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "text",
+        "name": "required_field_1b8b",
+        "hidden": "hidden"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [
+        "form-control"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "timestamp",
+        "value": "1743301610772",
+        "autocomplete": "off"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [
+        "form-control"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "timestamp_secret",
+        "value": "2fc6cfb2340ab5eb46f96d31f389387741b24bbff0b5c6778ab2e12cf98b3f5a",
+        "autocomplete": "off"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "authenticity_token",
+        "value": "Xx9HkHJfNR2osM3rtpDpleZ4vUrTpECKhJAGIrfZlVJngrLu_WAR2k-tn-ML6jo5EiKjYm_LALyjX99auJrsfA"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [
+        "js-webauthn-response"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "webauthn_response"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "webauthn-conditional",
+        "value": "false"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [
+        "js-support"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "javascript-support",
+        "value": "true"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [
+        "js-webauthn-support"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "webauthn-support",
+        "value": "supported"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [
+        "js-webauthn-iuvpaa-support"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "webauthn-iuvpaa-support",
+        "value": "supported"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [
+        "form-control"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "text",
+        "name": "required_field_5215",
+        "hidden": "hidden"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [
+        "form-control"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "timestamp",
+        "value": "1743301610773",
+        "autocomplete": "off"
+      }
+    },
+    {
+      "element_type": "input",
+      "id": null,
+      "classes": [
+        "form-control"
+      ],
+      "text": "",
+      "attributes": {
+        "type": "hidden",
+        "name": "timestamp_secret",
+        "value": "3d1ef0fe686e15fdd8e45fe42e4194ef4831c660826b199647d2eba51fb906c3",
+        "autocomplete": "off"
+      }
+    },
+    {
+      "element_type": "form",
+      "id": null,
+      "classes": [],
+      "text": "Username or email address\n    \n\n\n\n      Password\n ...",
+      "attributes": {
+        "data-turbo": "false",
+        "action": "/session",
+        "accept-charset": [
+          "UTF-8"
+        ],
+        "method": "post"
+      }
     },
     {
       "element_type": "form",
       "id": null,
       "classes": [
-        "space-y-6"
+        "js-conditional-webauthn-placeholder"
       ],
-      "text": "Login",
+      "text": "",
+      "attributes": {
+        "hidden": "hidden",
+        "data-webauthn-sign-request": "{\"publicKey\":{\"userVerification\":\"required\",\"timeout\":60000,\"challenge\":\"JwLlOih4Woc_PNwxDk2O6ZZMYomsqAE_HyyR8ajaCjQ\",\"allowCredentials\":[],\"rpId\":\"github.com\"},\"mediation\":\"conditional\"}",
+        "data-turbo": "false",
+        "action": "/session",
+        "accept-charset": [
+          "UTF-8"
+        ],
+        "method": "post"
+      }
+    },
+    {
+      "element_type": "form",
+      "id": null,
+      "classes": [
+        "js-webauthn-form"
+      ],
+      "text": "Enable JavaScript to use your passkey.\n\n \n\n\n\n\n\n\n\n\n...",
+      "attributes": {
+        "data-turbo": "false",
+        "action": "/session",
+        "accept-charset": [
+          "UTF-8"
+        ],
+        "method": "post"
+      }
+    },
+    {
+      "element_type": "a",
+      "id": null,
+      "classes": [
+        "px-2",
+        "py-4",
+        "color-bg-accent-emphasis",
+        "color-fg-on-emphasis",
+        "show-on-focus",
+        "js-skip-to-content"
+      ],
+      "text": "Skip to content",
+      "attributes": {
+        "href": "#start-of-content",
+        "data-skip-target-assigned": "false"
+      }
+    },
+    {
+      "element_type": "a",
+      "id": null,
+      "classes": [
+        "header-logo"
+      ],
+      "text": "",
+      "attributes": {
+        "href": "https://github.com/",
+        "aria-label": "Homepage",
+        "data-ga-click": "(Logged out) Header, go to homepage, icon:logo-wordmark"
+      }
+    },
+    {
+      "element_type": "a",
+      "id": null,
+      "classes": [
+        "Link--inTextBlock"
+      ],
+      "text": "Reload",
+      "attributes": {
+        "href": ""
+      }
+    },
+    {
+      "element_type": "a",
+      "id": null,
+      "classes": [
+        "Link--inTextBlock"
+      ],
+      "text": "Reload",
+      "attributes": {
+        "href": ""
+      }
+    },
+    {
+      "element_type": "a",
+      "id": null,
+      "classes": [
+        "Link--inTextBlock"
+      ],
+      "text": "Reload",
+      "attributes": {
+        "href": ""
+      }
+    },
+    {
+      "element_type": "a",
+      "id": null,
+      "classes": [],
+      "text": "Create an account",
+      "attributes": {
+        "data-ga-click": "Sign in, switch to sign up",
+        "data-hydro-click": "{\"event_type\":\"authentication.click\",\"payload\":{\"location_in_page\":\"sign in switch to sign up\",\"repository_id\":null,\"auth_type\":\"SIGN_UP\",\"originating_url\":\"https://github.com/login\",\"user_id\":null}}",
+        "data-hydro-click-hmac": "d943b5df3b8e74686b4009e60ef5e059ef46ba02071647af580daec2c03c709e",
+        "href": "/signup?source=login"
+      }
+    },
+    {
+      "element_type": "a",
+      "id": null,
+      "classes": [
+        "Link--secondary",
+        "Link"
+      ],
+      "text": "Terms",
+      "attributes": {
+        "data-analytics-event": "{\"category\":\"Footer\",\"action\":\"go to Terms\",\"label\":\"text:terms\"}",
+        "href": "https://docs.github.com/site-policy/github-terms/github-terms-of-service",
+        "data-view-component": "true"
+      }
+    },
+    {
+      "element_type": "a",
+      "id": null,
+      "classes": [
+        "Link--secondary",
+        "Link"
+      ],
+      "text": "Privacy",
+      "attributes": {
+        "data-analytics-event": "{\"category\":\"Footer\",\"action\":\"go to privacy\",\"label\":\"text:privacy\"}",
+        "href": "https://docs.github.com/site-policy/privacy-policies/github-privacy-statement",
+        "data-view-component": "true"
+      }
+    },
+    {
+      "element_type": "a",
+      "id": null,
+      "classes": [
+        "Link--secondary",
+        "Link"
+      ],
+      "text": "Docs",
+      "attributes": {
+        "data-analytics-event": "{\"category\":\"Footer\",\"action\":\"go to docs\",\"label\":\"text:docs\"}",
+        "href": "https://docs.github.com",
+        "data-view-component": "true"
+      }
+    },
+    {
+      "element_type": "a",
+      "id": null,
+      "classes": [
+        "Link--secondary",
+        "Link"
+      ],
+      "text": "Contact GitHub Support",
+      "attributes": {
+        "data-analytics-event": "{\"category\":\"Footer\",\"action\":\"go to contact\",\"label\":\"text:contact\"}",
+        "href": "https://support.github.com",
+        "data-view-component": "true"
+      }
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "logged-out",
+        "env-production",
+        "page-responsive",
+        "session-authentication"
+      ],
+      "text": "Skip to content\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nYou ...",
+      "attributes": {
+        "data-turbo-body": "",
+        "style": "word-wrap: break-word;"
+      }
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "position-relative",
+        "header-wrapper",
+        "js-header-wrapper"
+      ],
+      "text": "Skip to content\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nYou ...",
       "attributes": {}
-    },
-    {
-      "element_type": "a",
-      "id": null,
-      "classes": [
-        "flex",
-        "items-center"
-      ],
-      "text": "Incognito",
-      "attributes": {
-        "href": "/"
-      }
-    },
-    {
-      "element_type": "a",
-      "id": null,
-      "classes": [
-        "px-4",
-        "py-2",
-        "rounded-lg",
-        "bg-gradient-to-r",
-        "from-purple-500",
-        "to-pink-500",
-        "text-white",
-        "hover:from-pink-500",
-        "hover:to-purple-500",
-        "transform",
-        "hover:-translate-y-1",
-        "transition-all",
-        "duration-300"
-      ],
-      "text": "Login",
-      "attributes": {
-        "href": "/login",
-        "data-discover": "true"
-      }
-    },
-    {
-      "element_type": "a",
-      "id": null,
-      "classes": [
-        "px-4",
-        "py-2",
-        "rounded-lg",
-        "bg-gray-900/50",
-        "border",
-        "border-gray-800",
-        "hover:scale-105",
-        "transition-all",
-        "duration-300"
-      ],
-      "text": "Sign Up",
-      "attributes": {
-        "href": "/signup",
-        "data-discover": "true"
-      }
     },
     {
       "element_type": "div",
       "id": null,
       "classes": [],
-      "text": "IncognitoLoginSign Up\ud83c\udf1eWelcome BackLoginDon't have ...",
+      "text": "",
       "attributes": {
-        "style": "opacity: 1;"
+        "data-target": "react-partial.reactRoot"
       }
     },
     {
       "element_type": "div",
       "id": null,
       "classes": [
-        "min-h-screen",
-        "transition-colors",
-        "duration-300",
-        "bg-gradient-to-br",
-        "from-slate-900",
-        "via-purple-900",
-        "to-slate-900",
-        "text-white"
+        "d-none"
       ],
-      "text": "IncognitoLoginSign Up\ud83c\udf1eWelcome BackLoginDon't have ...",
+      "text": "",
       "attributes": {}
     },
     {
       "element_type": "div",
       "id": null,
       "classes": [
-        "fixed",
-        "w-4",
-        "h-4",
-        "rounded-full",
-        "pointer-events-none",
-        "z-[100]",
-        "mix-blend-difference",
-        "bg-white"
+        "header",
+        "header-logged-out",
+        "width-full",
+        "pt-5",
+        "pb-4"
       ],
       "text": "",
       "attributes": {
-        "style": "left: -8px; top: -8px; backdrop-filter: blur(1px); transform: translate3d(0px, 0px, 0px);"
+        "role": "banner"
       }
     },
     {
       "element_type": "div",
       "id": null,
       "classes": [
-        "fixed",
-        "w-8",
-        "h-8",
-        "rounded-full",
-        "pointer-events-none",
-        "z-[99]",
-        "border-2",
-        "border-white/50"
+        "container",
+        "clearfix",
+        "width-full",
+        "text-center"
       ],
       "text": "",
+      "attributes": {}
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "js-stale-session-flash",
+        "stale-session-flash",
+        "flash",
+        "flash-warn",
+        "flash-full"
+      ],
+      "text": "You signed in with another tab or window. Reload t...",
       "attributes": {
-        "style": "left: -16px; top: -16px; transform: translate3d(0px, 0px, 0px);"
+        "hidden": "hidden",
+        "data-view-component": "true"
       }
     },
     {
       "element_type": "div",
       "id": null,
       "classes": [
-        "fixed",
-        "w-12",
-        "h-12",
-        "rounded-full",
-        "pointer-events-none",
-        "z-[98]",
-        "opacity-30",
-        "border",
-        "border-white/20"
+        "application-main"
       ],
-      "text": "",
+      "text": "Sign in to GitHub\n\n\n\n\n\n\n\n\n\n\n\n\n \n\n      Username or...",
       "attributes": {
-        "style": "left: -24px; top: -24px; transform: translate3d(0px, 0px, 0px);"
+        "data-commit-hovercards-enabled": "",
+        "data-discussion-hovercards-enabled": "",
+        "data-issue-and-pr-hovercards-enabled": "",
+        "data-project-hovercards-enabled": ""
       }
     },
     {
       "element_type": "div",
       "id": null,
       "classes": [
-        "max-w-screen-xl",
-        "flex",
+        "auth-form-header",
+        "p-0"
+      ],
+      "text": "Sign in to GitHub",
+      "attributes": {}
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "flash",
+        "flash-full",
+        "{{",
+        "className",
+        "}}"
+      ],
+      "text": "",
+      "attributes": {}
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "js-flash-alert"
+      ],
+      "text": "",
+      "attributes": {
+        "aria-atomic": "true",
+        "role": "alert"
+      }
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "flash",
+        "js-transform-notice"
+      ],
+      "text": "",
+      "attributes": {
+        "hidden": ""
+      }
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "auth-form-body",
+        "mt-3"
+      ],
+      "text": "Username or email address\n    \n\n\n\n      Password\n ...",
+      "attributes": {}
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "position-relative"
+      ],
+      "text": "Password\n    \n\nForgot password?",
+      "attributes": {}
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "js-webauthn-login-section"
+      ],
+      "text": "To login using passkeys, ensure that JavaScript is...",
+      "attributes": {
+        "hidden": ""
+      }
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "mt-3",
+        "ml-1"
+      ],
+      "text": "To login using passkeys, ensure that JavaScript is...",
+      "attributes": {}
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "auth-divider",
+        "text-center",
+        "mt-3"
+      ],
+      "text": "Or",
+      "attributes": {}
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "mt-3"
+      ],
+      "text": "Enable JavaScript to use your passkey.\n\n \n\n\n\n\n\n\n\n\n...",
+      "attributes": {}
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "webauthn-form-body"
+      ],
+      "text": "Enable JavaScript to use your passkey.\n\n \n\n\n\n\n\n\n\n\n...",
+      "attributes": {}
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "Banner",
+        "flash",
+        "text-left",
+        "mb-3",
+        "p-0"
+      ],
+      "text": "Enable JavaScript to use your passkey.",
+      "attributes": {
+        "data-view-component": "true"
+      }
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "Banner-visual"
+      ],
+      "text": "",
+      "attributes": {}
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "Banner-message"
+      ],
+      "text": "Enable JavaScript to use your passkey.",
+      "attributes": {
+        "data-view-component": "true"
+      }
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "Banner",
+        "flash",
+        "Banner--warning",
+        "flash-warn",
+        "text-left",
+        "mb-3",
+        "p-0"
+      ],
+      "text": "This browser or device is reporting partial passke...",
+      "attributes": {
+        "data-target": "webauthn-get.passkeysUnsupportedMessage",
+        "hidden": "hidden",
+        "data-view-component": "true"
+      }
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "Banner-visual"
+      ],
+      "text": "",
+      "attributes": {}
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "Banner-message"
+      ],
+      "text": "This browser or device is reporting partial passke...",
+      "attributes": {
+        "data-view-component": "true"
+      }
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "Banner",
+        "flash",
+        "Banner--warning",
+        "flash-warn",
+        "text-left",
+        "mb-3",
+        "p-0"
+      ],
+      "text": "Webauthn isn't supported. Use a different browser ...",
+      "attributes": {
+        "data-target": "webauthn-get.unsupportedMessage",
+        "hidden": "hidden",
+        "data-view-component": "true"
+      }
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "Banner-visual"
+      ],
+      "text": "",
+      "attributes": {}
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "Banner-message"
+      ],
+      "text": "Webauthn isn't supported. Use a different browser ...",
+      "attributes": {
+        "data-view-component": "true"
+      }
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "Banner",
+        "flash",
+        "Banner--error",
+        "flash-error",
+        "text-left",
+        "mb-3",
+        "p-0"
+      ],
+      "text": "",
+      "attributes": {
+        "data-targets": "webauthn-get.messages",
+        "data-target": "webauthn-get.errorMessage",
+        "hidden": "",
+        "data-view-component": "true"
+      }
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "Banner-visual"
+      ],
+      "text": "",
+      "attributes": {}
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "Banner-message"
+      ],
+      "text": "",
+      "attributes": {
+        "data-view-component": "true"
+      }
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "login-callout",
+        "mt-3"
+      ],
+      "text": "Sign in with a passkey\n\n\n\n\n\n            New to Git...",
+      "attributes": {}
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "footer",
+        "container-lg",
+        "p-responsive",
+        "py-6",
+        "mt-6",
+        "f6",
+        "d-flex",
+        "flex-justify-center",
+        "flex-items-center",
+        "flex-lg-row",
         "flex-wrap",
-        "items-center",
-        "justify-between",
-        "mx-auto",
-        "p-4"
+        "flex-lg-nowrap"
       ],
-      "text": "IncognitoLoginSign Up\ud83c\udf1e",
-      "attributes": {}
+      "text": "Terms\n\n\nPrivacy\n\n\nDocs\n\n\nContact GitHub Support\n\n\n...",
+      "attributes": {
+        "role": "contentinfo"
+      }
     },
     {
       "element_type": "div",
       "id": null,
       "classes": [
-        "flex",
-        "items-center",
-        "gap-4"
-      ],
-      "text": "LoginSign Up\ud83c\udf1e",
-      "attributes": {}
-    },
-    {
-      "element_type": "div",
-      "id": null,
-      "classes": [
-        "pt-16",
-        "relative",
-        "z-10"
-      ],
-      "text": "Welcome BackLoginDon't have an account? Sign up",
-      "attributes": {}
-    },
-    {
-      "element_type": "div",
-      "id": null,
-      "classes": [
-        "flex",
-        "min-h-[calc(100vh-64px)]",
-        "items-center",
-        "justify-center",
-        "p-6"
-      ],
-      "text": "Welcome BackLoginDon't have an account? Sign up",
-      "attributes": {}
-    },
-    {
-      "element_type": "div",
-      "id": null,
-      "classes": [
-        "w-full",
-        "max-w-md",
-        "transform",
-        "hover:scale-105",
-        "transition-all",
-        "duration-500",
-        "hover:shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)]"
-      ],
-      "text": "Welcome BackLoginDon't have an account? Sign up",
-      "attributes": {}
-    },
-    {
-      "element_type": "div",
-      "id": null,
-      "classes": [
-        "bg-gray-900/50",
-        "border-gray-800",
-        "shadow-[0_0_15px_rgba(168,_85,_247,_0.4)]",
-        "backdrop-blur-xl",
-        "p-8",
-        "rounded-2xl",
-        "shadow-2xl",
-        "border"
-      ],
-      "text": "Welcome BackLoginDon't have an account? Sign up",
-      "attributes": {}
-    },
-    {
-      "element_type": "div",
-      "id": null,
-      "classes": [
-        "space-y-2"
+        "octocat-spinner",
+        "my-6",
+        "js-details-dialog-spinner"
       ],
       "text": "",
       "attributes": {}
@@ -354,7 +1474,47 @@
       "element_type": "div",
       "id": null,
       "classes": [
-        "space-y-2"
+        "Popover",
+        "js-hovercard-content",
+        "position-absolute"
+      ],
+      "text": "",
+      "attributes": {
+        "style": "display: none; outline: none;"
+      }
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "Popover-message",
+        "Popover-message--bottom-left",
+        "Popover-message--large",
+        "Box",
+        "color-shadow-large"
+      ],
+      "text": "",
+      "attributes": {
+        "style": "width:360px;"
+      }
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "zeroclipboard-container",
+        "position-absolute",
+        "right-0",
+        "top-0"
+      ],
+      "text": "",
+      "attributes": {}
+    },
+    {
+      "element_type": "div",
+      "id": null,
+      "classes": [
+        "zeroclipboard-container"
       ],
       "text": "",
       "attributes": {}
@@ -363,12 +1523,146 @@
       "element_type": "span",
       "id": null,
       "classes": [
-        "self-center",
-        "text-xl",
-        "font-semibold",
-        "whitespace-nowrap"
+        "progress-pjax-loader",
+        "Progress",
+        "position-fixed",
+        "width-full"
       ],
-      "text": "Incognito",
+      "text": "",
+      "attributes": {
+        "data-view-component": "true"
+      }
+    },
+    {
+      "element_type": "span",
+      "id": null,
+      "classes": [
+        "Progress-item",
+        "progress-pjax-loader-bar",
+        "left-0",
+        "top-0",
+        "color-bg-accent-emphasis"
+      ],
+      "text": "",
+      "attributes": {
+        "style": "width: 0%;",
+        "data-view-component": "true"
+      }
+    },
+    {
+      "element_type": "span",
+      "id": null,
+      "classes": [
+        "js-stale-session-flash-signed-in"
+      ],
+      "text": "You signed in with another tab or window. Reload t...",
+      "attributes": {
+        "hidden": ""
+      }
+    },
+    {
+      "element_type": "span",
+      "id": null,
+      "classes": [
+        "js-stale-session-flash-signed-out"
+      ],
+      "text": "You signed out in another tab or window. Reload to...",
+      "attributes": {
+        "hidden": ""
+      }
+    },
+    {
+      "element_type": "span",
+      "id": null,
+      "classes": [
+        "js-stale-session-flash-switched"
+      ],
+      "text": "You switched accounts on another tab or window. Re...",
+      "attributes": {
+        "hidden": ""
+      }
+    },
+    {
+      "element_type": "span",
+      "id": null,
+      "classes": [],
+      "text": "",
+      "attributes": {
+        "role": "alert",
+        "data-target": "webauthn-get.errorText"
+      }
+    },
+    {
+      "element_type": "span",
+      "id": null,
+      "classes": [],
+      "text": "Loading",
+      "attributes": {
+        "data-view-component": "true"
+      }
+    },
+    {
+      "element_type": "span",
+      "id": null,
+      "classes": [
+        "sr-only"
+      ],
+      "text": "Loading",
+      "attributes": {}
+    },
+    {
+      "element_type": "span",
+      "id": null,
+      "classes": [
+        "Button-content"
+      ],
+      "text": "Sign in with a passkey",
+      "attributes": {}
+    },
+    {
+      "element_type": "span",
+      "id": null,
+      "classes": [
+        "Button-visual",
+        "Button-leadingVisual"
+      ],
+      "text": "",
+      "attributes": {}
+    },
+    {
+      "element_type": "span",
+      "id": null,
+      "classes": [
+        "Button-label"
+      ],
+      "text": "Sign in with a passkey",
+      "attributes": {}
+    },
+    {
+      "element_type": "span",
+      "id": null,
+      "classes": [],
+      "text": "Sign in with a passkey",
+      "attributes": {
+        "data-target": "webauthn-get.buttonText"
+      }
+    },
+    {
+      "element_type": "span",
+      "id": null,
+      "classes": [
+        "Button-content"
+      ],
+      "text": "Sign in with a passkey",
+      "attributes": {}
+    },
+    {
+      "element_type": "span",
+      "id": null,
+      "classes": [
+        "Button-label"
+      ],
+      "text": "Sign in with a passkey",
       "attributes": {}
     }
   ]

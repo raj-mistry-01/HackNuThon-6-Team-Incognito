@@ -1,22 +1,20 @@
 {
   "id": "TC004",
-  "name": "Toggle Theme",
-  "description": "Verify theme toggling functionality.",
+  "name": "Sign Up Link",
+  "description": "Verify the 'Create an account' link functionality.",
   "steps": [
-    "Step 1: Navigate to the login page.",
-    "Step 2: Click the theme toggle button."
+    "Step 1: Click the 'Create an account' link."
   ],
   "expected_results": [
-    "Expected Result 1: The theme should switch between light and dark mode."
+    "Expected Result 1: User is redirected to the sign-up page."
   ],
   "elements": [
     {
-      "step": "Step 2",
-      "description": "Theme toggle button",
-      "type": "button",
-      "text_content": "\ud83c\udf1e",
+      "step": "Step 1",
+      "description": "Create an account link",
+      "type": "link",
       "selectors": {
-        "css": "button.text-yellow-300"
+        "css": ".login-callout a"
       }
     }
   ]

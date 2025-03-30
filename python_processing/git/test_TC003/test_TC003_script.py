@@ -6,14 +6,23 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-class TestNavigateToSignUp(unittest.TestCase):
+class TestForgotPassword(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.Chrome()  # Or any other browser
         self.driver.maximize_window()
+        self.test_data = self.load_test_data()
 
     def tearDown(self):
         self.driver.quit()
+
+    def load_test_data(self):
+        try:
+            with open("testcase.json", "r") as f:
+                return json.load(f)
+        except FileNotFoundError:
+            print("testcase.json not found, using default values.")
+            return {}  # Return empty dict for default behavior
 
     def locate_element(self, selectors, wait_time=10):
         wait = WebDriverWait(self.driver, wait_time)
@@ -33,43 +42,30 @@ class TestNavigateToSignUp(unittest.TestCase):
                 continue
         raise Exception(f"Could not locate element with selectors: {selectors}")
 
-    def test_navigate_to_sign_up(self):
+
+    def test_forgot_password(self):
         try:
-            with open(os.path.join(os.path.dirname(__file__), "testcase.json"), "r") as f:
-                test_data = json.load(f)
-        except FileNotFoundError:
-            test_data = []  # Use default values if file not found
+            # Load test data if available, otherwise use default URL
+            url = self.test_data.get("website_url", "https://github.com/login")
+            self.driver.get(url)
 
-        if not test_data:
-            test_cases = [{}]  # Run with default values if file is empty or not found
-        else:
-            test_cases = test_data
+            # Locate and click the "Forgot password?" link
+            forgot_password_link = self.locate_element({"id": "forgot-password"})
+            forgot_password_link.click()
 
-        overall_result = True
-        for test_case in test_cases:
-            try:
-                # Step 1: Navigate to the login page
-                self.driver.get("https://incognito-three-chi.vercel.app/login")
+            # Assert that the URL has changed, indicating redirection
+            self.assertNotEqual(url, self.driver.current_url, "URL did not change after clicking 'Forgot password?'")
+            print("Test passed.")
+            return True
 
-                # Step 2: Click the 'Sign up' link
-                signup_link = self.locate_element({"css": "a[href='/signup']"})
-                signup_link.click()
-
-                # Expected Result 1: User should be redirected to the sign-up page.
-                self.assertEqual(self.driver.current_url, "https://incognito-three-chi.vercel.app/signup")
-                print("Test passed for test case:", test_case)
-
-
-            except Exception as e:
-                print(f"Test failed for test case: {test_case}. Error: {e}")
-                overall_result = False
-
-        return overall_result
+        except Exception as e:
+            print(f"Test failed: {e}")
+            return False
 
 
 if __name__ == "__main__":
-    test_suite = unittest.TestSuite()
-    test_suite.addTest(unittest.makeSuite(TestNavigateToSignUp))
-    runner = unittest.TextTestRunner()
-    result = runner.run(test_suite)
-    exit(not result.wasSuccessful()) # Exit with 1 if any test fails, 0 otherwise
+    test_result = TestForgotPassword().test_forgot_password()
+    if test_result:
+        exit(0)  # Exit code 0 for pass
+    else:
+        exit(1)  # Exit code 1 (or any non-zero) for fail

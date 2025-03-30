@@ -1,21 +1,20 @@
 {
   "id": "TC005",
-  "name": "Navigate to Home",
-  "description": "Verify navigation to the home page from the logo.",
+  "name": "Passkey Sign In Button Display",
+  "description": "Verify the passkey sign in button is displayed.",
   "steps": [
-    "Step 1: Navigate to the login page.",
-    "Step 2: Click the 'Incognito' logo."
+    "Step 1: Check for the presence of the passkey sign in button."
   ],
   "expected_results": [
-    "Expected Result 1: User should be redirected to the home page."
+    "Expected Result 1: The passkey sign in button is visible on the page."
   ],
   "elements": [
     {
-      "step": "Step 2",
-      "description": "Incognito logo link",
-      "type": "link",
+      "step": "Step 1",
+      "description": "Passkey Sign in button",
+      "type": "button",
       "selectors": {
-        "css": "a[href='/']"
+        "css": ".js-webauthn-confirm-button"
       }
     }
   ]

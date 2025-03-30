@@ -1,54 +1,54 @@
 {
-  "execution_date": "2025-03-30 07:45:24",
-  "total_duration_seconds": 42.927741,
+  "execution_date": "2025-03-30 07:57:45",
+  "total_duration_seconds": 62.496804,
   "total_tests": 5,
-  "passed_tests": 4,
-  "failed_tests": 1,
+  "passed_tests": 3,
+  "failed_tests": 2,
   "results": [
     {
       "test_id": "TC001",
       "test_name": "Successful Login",
       "script_path": "git\\test_TC001\\test_TC001_script.py",
       "testcase_path": "git\\test_TC001\\testcase.json",
-      "start_time": "2025-03-30 07:45:24",
-      "passed": false,
-      "end_time": "2025-03-30 07:45:24"
+      "start_time": "2025-03-30 07:57:45",
+      "passed": true,
+      "end_time": "2025-03-30 07:57:57"
     },
     {
       "test_id": "TC002",
       "test_name": "Failed Login - Invalid Credentials",
       "script_path": "git\\test_TC002\\test_TC002_script.py",
       "testcase_path": "git\\test_TC002\\testcase.json",
-      "start_time": "2025-03-30 07:45:24",
+      "start_time": "2025-03-30 07:57:57",
       "passed": true,
-      "end_time": "2025-03-30 07:45:35"
+      "end_time": "2025-03-30 07:58:09"
     },
     {
       "test_id": "TC003",
-      "test_name": "Navigate to Sign Up",
+      "test_name": "Forgot Password",
       "script_path": "git\\test_TC003\\test_TC003_script.py",
       "testcase_path": "git\\test_TC003\\testcase.json",
-      "start_time": "2025-03-30 07:45:35",
+      "start_time": "2025-03-30 07:58:09",
       "passed": true,
-      "end_time": "2025-03-30 07:45:47"
+      "end_time": "2025-03-30 07:58:24"
     },
     {
       "test_id": "TC004",
-      "test_name": "Toggle Theme",
+      "test_name": "Sign Up Link",
       "script_path": "git\\test_TC004\\test_TC004_script.py",
       "testcase_path": "git\\test_TC004\\testcase.json",
-      "start_time": "2025-03-30 07:45:47",
-      "passed": true,
-      "end_time": "2025-03-30 07:45:57"
+      "start_time": "2025-03-30 07:58:24",
+      "passed": false,
+      "end_time": "2025-03-30 07:58:37"
     },
     {
       "test_id": "TC005",
-      "test_name": "Navigate to Home",
+      "test_name": "Passkey Sign In Button Display",
       "script_path": "git\\test_TC005\\test_TC005_script.py",
       "testcase_path": "git\\test_TC005\\testcase.json",
-      "start_time": "2025-03-30 07:45:57",
-      "passed": true,
-      "end_time": "2025-03-30 07:46:06"
+      "start_time": "2025-03-30 07:58:37",
+      "passed": false,
+      "end_time": "2025-03-30 07:58:48"
     }
   ]
 }

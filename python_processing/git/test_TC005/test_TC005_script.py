@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-class TestNavigateToHome(unittest.TestCase):
+class TestPasskeySignInButton(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.Chrome()  # Or any other browser
@@ -33,40 +33,30 @@ class TestNavigateToHome(unittest.TestCase):
                 continue
         raise Exception(f"Could not locate element with selectors: {selectors}")
 
-    def test_navigate_to_home(self):
+    def test_passkey_sign_in_button_display(self):
         try:
             with open(os.path.join(os.path.dirname(__file__), "testcase.json"), "r") as f:
                 test_data = json.load(f)
-        except FileNotFoundError:
-            test_data = {}  # Use default values if file not found
+        except (FileNotFoundError, json.JSONDecodeError):
+            test_data = {}  # Use default values if file not found or empty
 
-        base_url = "https://incognito-three-chi.vercel.app/login"  # Default URL
+        url = "https://github.com/login"  # Default URL
 
-        if test_data:
-            # Iterate through test data sets if available
-            for data_set in test_data.get("test_cases", []): # Assuming "test_cases" key holds an array of datasets
-                if data_set.get("id") == "TC005":
-                    base_url = data_set.get("url", base_url) # Override with data from file if present
-                    break # Stop searching once the correct test case is found
-        
+        self.driver.get(url)
+
         try:
-            # Step 1: Navigate to the login page
-            self.driver.get(base_url)
-
-            # Step 2: Click the 'Incognito' logo
-            logo_link = self.locate_element({"css": "a[href='/']"})
-            logo_link.click()
-
-            # Expected Result 1: User should be redirected to the home page.
-            self.assertEqual(self.driver.current_url, "https://incognito-three-chi.vercel.app/")
-            print("Test passed.")
+            passkey_button = self.locate_element({"css": ".js-webauthn-confirm-button"})
+            self.assertTrue(passkey_button.is_displayed(), "Passkey sign in button is not displayed.")
+            print("Test Passed: Passkey sign in button is displayed.")
             return True
-
         except Exception as e:
-            print(f"Test failed: {e}")
+            print(f"Test Failed: {e}")
             return False
 
 
 if __name__ == "__main__":
-    test_result = TestNavigateToHome().test_navigate_to_home()
-    print(f"Overall test result: {'Pass' if test_result else 'Fail'}")
+    test_suite = unittest.TestSuite()
+    test_suite.addTest(TestPasskeySignInButton("test_passkey_sign_in_button_display"))
+    runner = unittest.TextTestRunner()
+    result = runner.run(test_suite)
+    exit(not result.wasSuccessful()) # Exit with 1 if test failed, 0 if passed

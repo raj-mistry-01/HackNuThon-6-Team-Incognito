@@ -6,24 +6,23 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-class TestLogin(unittest.TestCase):
+class TestFailedLogin(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.Chrome()  # Or any other browser
         self.driver.maximize_window()
-        self.test_data = self.load_test_data()
+        self.test_data = []
+        try:
+            with open("testcase.json", "r") as f:
+                testcase = json.load(f)
+                self.test_data = testcase.get("test_data", [])
+        except FileNotFoundError:
+            print("testcase.json not found, using default values.")
+        if not self.test_data:
+            self.test_data = [{"email": "invaliduser@example.com", "password": "wrongpassword"}]  # Default values
 
     def tearDown(self):
         self.driver.quit()
-
-    def load_test_data(self):
-        try:
-            with open("testcase.json", "r") as f:
-                data = json.load(f)
-                return data.get("test_data", [])  # Extract test_data, default to empty list if not found
-        except FileNotFoundError:
-            print("testcase.json not found, using default values.")
-            return [{"email": "invalid@example.com", "password": "wrongpassword"}]  # Default values
 
     def locate_element(self, selectors, wait_time=10):
         wait = WebDriverWait(self.driver, wait_time)
@@ -33,37 +32,44 @@ class TestLogin(unittest.TestCase):
             try:
                 if selector_type == "id" and selector_value:
                     return wait.until(EC.presence_of_element_located((By.ID, selector_value)))
-                # Add other selector types (css, xpath, name) as needed, similar to the 'id' block above
+                elif selector_type == "css" and selector_value:
+                    return wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, selector_value)))
+                elif selector_type == "xpath" and selector_value:
+                    return wait.until(EC.presence_of_element_located((By.XPATH, selector_value)))
+                elif selector_type == "name" and selector_value:
+                    return wait.until(EC.presence_of_element_located((By.NAME, selector_value)))
             except Exception:
                 continue
         raise Exception(f"Could not locate element with selectors: {selectors}")
 
 
     def test_failed_login(self):
+        overall_result = True
         for data in self.test_data:
             try:
-                self.driver.get("https://incognito-three-chi.vercel.app/login")
-                email_input = self.locate_element({"id": "email"})
-                email_input.send_keys(data.get("email", "invalid@example.com")) # Use data from json or default
-                password_input = self.locate_element({"id": "password"})
-                password_input.send_keys(data.get("password", "wrongpassword")) # Use data from json or default
-                login_button = self.locate_element({"id": "login"})
-                login_button.click()
+                self.driver.get("https://github.com/login")
+                email_field = self.locate_element({"id": "login_field"})
+                email_field.send_keys(data["email"])
+                password_field = self.locate_element({"id": "password"})
+                password_field.send_keys(data["password"])
+                sign_in_button = self.locate_element({"css": ".js-sign-in-button"})
+                sign_in_button.click()
 
-                # Assertion: Check for error message (replace with actual error message locator)
-                # Example:
-                # error_message = self.locate_element({"id": "error-message"})
-                # self.assertTrue(error_message.is_displayed(), "Error message not displayed")
-                print("Test Passed for data:", data) # Print pass for each data set
+                # Assertion: Check for error message (adjust selector if needed)
+                error_message = self.locate_element({"css": ".flash-error"}) # Example selector
+                self.assertTrue(error_message.is_displayed(), "Error message not displayed")
+                print(f"Test passed for {data}")
 
             except Exception as e:
-                print(f"Test Failed for data: {data}. Error: {e}")
-                return False # Return False for failure
+                print(f"Test failed for {data}: {e}")
+                overall_result = False
+        return overall_result
 
-
-        return True # Return True if all tests pass
 
 
 if __name__ == "__main__":
-    test_result = TestLogin().test_failed_login() # Get the boolean result
-    print("Overall Test Result:", test_result) # Print the overall result
+    test_suite = unittest.TestSuite()
+    test_suite.addTest(unittest.makeSuite(TestFailedLogin))
+    runner = unittest.TextTestRunner()
+    result = runner.run(test_suite)
+    exit(not result.wasSuccessful()) # Exit with 1 if tests fail, 0 if pass

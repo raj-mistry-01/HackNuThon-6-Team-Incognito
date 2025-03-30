@@ -1,21 +1,20 @@
 {
   "id": "TC003",
-  "name": "Navigate to Sign Up",
-  "description": "Verify navigation to the sign-up page.",
+  "name": "Forgot Password",
+  "description": "Verify the 'Forgot password?' link functionality.",
   "steps": [
-    "Step 1: Navigate to the login page.",
-    "Step 2: Click the 'Sign up' link."
+    "Step 1: Click the 'Forgot password?' link."
   ],
   "expected_results": [
-    "Expected Result 1: User should be redirected to the sign-up page."
+    "Expected Result 1: User is redirected to the password reset page."
   ],
   "elements": [
     {
-      "step": "Step 2",
-      "description": "Sign up link",
+      "step": "Step 1",
+      "description": "Forgot password link",
       "type": "link",
       "selectors": {
-        "css": "a[href='/signup']"
+        "id": "forgot-password"
       }
     }
   ]

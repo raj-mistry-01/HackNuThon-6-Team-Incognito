@@ -20,7 +20,7 @@ import sys
 from multiprocessing import Process, Queue
 
 # Configuration variables - Edit these values
-WEBSITE_URL = "https://incognito-three-chi.vercel.app/login"  # URL of the website to scrape
+WEBSITE_URL = "https://github.com/login"  # URL of the website to scrape
 OUTPUT_FOLDER = "./git"  # Folder to store generated test scripts
 API_KEYS = ["AIzaSyDQd8ihGxz2bCA9lH-5pyyKYQjgIyolI3E", "AIzaSyCF6R7qDpglneMDgYun360O52A_UUeO-QM", "AIzaSyAETp5SEGNHvgfTlDizjfG8Bub16vh-D5w"]  # Replace with your three Google Gemini API keys
 MAX_BATCHES = 3  # Maximum number of API calls for test generation
