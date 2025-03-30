@@ -18,11 +18,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 import importlib.util
 import sys
 from multiprocessing import Process, Queue
-from figma_extraction import get_figma_json
-FIGMA_ACCESS_TOKEN = "figd_uVoIukrCAalpz9okHu4CEcG9nHcXCD1YzXHutjcR"
-FILE_ID = "zMlGokdmscjtOPXlwzk4Fi"
 WEBSITE_URL = "https://uniboxlogin.wifi-soft.com//portals/NU-Student/index.php?sid=q4eet6s0fuuod9rkligp5885u6&sidub=q4eet6s0fuuod9rkligp5885u6&mac=3C-E9-F7-D3-0F-7C"  # URL of the website to scrape
-OUTPUT_FOLDER = "./testing"  # Folder to store generated test scripts
+OUTPUT_FOLDER = "./git"  # Folder to store generated test scripts
 # 1
 # API_KEYS = ["AIzaSyBOQMW2MWVtkbIALSeFGjOg5ny9GQmPfTA", "AIzaSyC9sMyfAAapqttB1jNBuYBj4aqUshC1-Sk", "AIzaSyDB6rWqA1PEaux2qizqX9r9EDP12houoSY"]  # Replace with your three Google Gemini API keys
 
@@ -448,10 +445,9 @@ def generate_individual_test_files(test_cases_with_elements, website_url, output
 
     return generated_scripts
 
-def main(WEBSITE_URL):
+def main():
     """Main execution function"""
     output_folder = ensure_output_dir()
-    get_figma_json(FIGMA_ACCESS_TOKEN , FILE_ID)
     html_content = scrape_website_html(WEBSITE_URL, OUTPUT_FOLDER)
     if html_content:
         # Set up multiprocessing
@@ -540,4 +536,4 @@ def main(WEBSITE_URL):
             print("Failed to generate test cases from HTML content")
 
 if __name__ == "__main__":
-    main(WEBSITE_URL="")
+    main()

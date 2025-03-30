@@ -1,0 +1,42 @@
+{
+  "id": "TC003",
+  "name": "Login with username containing spaces",
+  "description": "Verify the behavior when attempting to log in with a username containing spaces.",
+  "steps": [
+    "Step 1: Enter a username containing spaces into the 'Username or email address' field.",
+    "Step 2: Enter a valid password into the 'Password' field.",
+    "Step 3: Click the 'Sign in' button."
+  ],
+  "expected_results": [
+    "Expected result 1: The login attempt should fail.",
+    "Expected result 2: An error message might be displayed indicating an invalid username format."
+  ],
+  "elements": [
+    {
+      "step": "Step 1",
+      "description": "Username or email address input field",
+      "type": "input",
+      "selectors": {
+        "id": "login_field"
+      }
+    },
+    {
+      "step": "Step 2",
+      "description": "Password input field",
+      "type": "input",
+      "selectors": {
+        "id": "password"
+      }
+    },
+    {
+      "step": "Step 3",
+      "description": "Sign in button",
+      "type": "input",
+      "selectors": {
+        "css": "input[type='submit']",
+        "xpath": "//input[@value='Sign in']"
+      }
+    }
+  ],
+  "test_data": []
+}

@@ -1,0 +1,42 @@
+{
+  "id": "TC001",
+  "name": "Login with empty username and password",
+  "description": "Verify the behavior when attempting to log in with empty username and password fields.",
+  "steps": [
+    "Step 1: Leave the 'Username or email address' field empty.",
+    "Step 2: Leave the 'Password' field empty.",
+    "Step 3: Click the 'Sign in' button."
+  ],
+  "expected_results": [
+    "Expected result 1: An error message should be displayed indicating that the username or email address is required.",
+    "Expected result 2: An error message should be displayed indicating that the password is required."
+  ],
+  "elements": [
+    {
+      "step": "Step 1",
+      "description": "Username or email address input field",
+      "type": "input",
+      "selectors": {
+        "id": "login_field"
+      }
+    },
+    {
+      "step": "Step 2",
+      "description": "Password input field",
+      "type": "input",
+      "selectors": {
+        "id": "password"
+      }
+    },
+    {
+      "step": "Step 3",
+      "description": "Sign in button",
+      "type": "input",
+      "selectors": {
+        "css": "input[type='submit']",
+        "xpath": "//input[@value='Sign in']"
+      }
+    }
+  ],
+  "test_data": []
+}

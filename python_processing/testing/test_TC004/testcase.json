@@ -1,0 +1,43 @@
+{
+  "id": "TC004",
+  "name": "Login with SQL Injection Attempt",
+  "description": "Verify the application's resilience against SQL injection attacks.",
+  "steps": [
+    "Step 1: Enter a SQL injection string (e.g., 'admin' or '1=1') into the 'Username or email address' field.",
+    "Step 2: Enter a SQL injection string or a regular password into the 'Password' field.",
+    "Step 3: Click the 'Sign in' button."
+  ],
+  "expected_results": [
+    "Expected result 1: The login attempt should be blocked.",
+    "Expected result 2: No database error messages should be displayed.",
+    "Expected result 3: An appropriate error message indicating invalid credentials should be shown."
+  ],
+  "elements": [
+    {
+      "step": "Step 1",
+      "description": "Username or email address input field",
+      "type": "input",
+      "selectors": {
+        "id": "login_field"
+      }
+    },
+    {
+      "step": "Step 2",
+      "description": "Password input field",
+      "type": "input",
+      "selectors": {
+        "id": "password"
+      }
+    },
+    {
+      "step": "Step 3",
+      "description": "Sign in button",
+      "type": "input",
+      "selectors": {
+        "css": "input[type='submit']",
+        "xpath": "//input[@value='Sign in']"
+      }
+    }
+  ],
+  "test_data": []
+}

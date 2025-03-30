@@ -5,6 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import *
 
 class TestGithubLogin(unittest.TestCase):
 
@@ -14,12 +15,10 @@ class TestGithubLogin(unittest.TestCase):
         self.test_data = []
         try:
             with open("testcase.json", "r") as f:
-                testcase = json.load(f)
-                self.test_data = testcase.get("test_data", [])
+                test_case = json.load(f)
+                self.test_data = test_case.get("test_data", [])
         except FileNotFoundError:
             print("testcase.json not found, using default values.")
-        if not self.test_data:
-            self.test_data = [{"email": "invaliduser@example.com", "password": "wrongpassword"}]
 
     def tearDown(self):
         self.driver.quit()
@@ -38,38 +37,46 @@ class TestGithubLogin(unittest.TestCase):
                     return wait.until(EC.presence_of_element_located((By.XPATH, selector_value)))
                 elif selector_type == "name":
                     return wait.until(EC.presence_of_element_located((By.NAME, selector_value)))
-            except Exception:
-                continue
+            except (NoSuchElementException, TimeoutException):
+                continue  # Try the next selector
         raise Exception(f"Could not locate element with selectors: {selectors}")
 
-    def test_failed_login(self):
-        overall_result = True
+
+    def test_login_empty_credentials(self):
+        if not self.test_data:
+            self.test_data = [{}] # Run at least once with default values
+
         for data in self.test_data:
             try:
                 self.driver.get("https://github.com/login")
-                email_field = self.locate_element({"id": "login_field"})
-                email_field.send_keys(data.get("email", "invaliduser@example.com"))
+
+                # Step 1 & 2: Leave fields empty (no action needed as they are empty by default)
+                username_field = self.locate_element({"id": "login_field"})
                 password_field = self.locate_element({"id": "password"})
-                password_field.send_keys(data.get("password", "wrongpassword"))
-                sign_in_button = self.locate_element({"css": ".js-sign-in-button"})
+
+                # Step 3: Click Sign in
+                sign_in_button = self.locate_element({"css": "input[type='submit']", "xpath": "//input[@value='Sign in']"})
                 sign_in_button.click()
 
-                # Assertion: Check for error message (adjust selector if needed)
-                error_message = self.locate_element({"css": ".flash-error"}) # Example error message selector
-                self.assertTrue(error_message.is_displayed(), "Error message not displayed")
-                print("Test Passed for data:", data)
+                # Assertions
+                error_messages = self.driver.find_elements(By.CSS_SELECTOR, ".flash-error")  # More generic error selector
+                self.assertTrue(any("username or email address is required" in msg.text for msg in error_messages), "Username error not found")
+                self.assertTrue(any("password is required" in msg.text for msg in error_messages), "Password error not found")
+                print("Test passed for data:", data)
+                return True # Test passed
 
             except Exception as e:
-                print(f"Test Failed for data: {data}. Error: {e}")
-                overall_result = False
-
-        return overall_result  # Return overall result (True if all passed, False otherwise)
+                print(f"Test failed for data: {data}. Error: {e}")
+                # Check for JavaScript errors or other unexpected behavior
+                for entry in self.driver.get_log('browser'):
+                    print(f"Browser log: {entry}")
+                return False # Test failed
 
 
 
 if __name__ == "__main__":
-    test_suite = unittest.TestSuite()
-    test_suite.addTest(unittest.makeSuite(TestGithubLogin))
-    runner = unittest.TextTestRunner(verbosity=2)
-    result = runner.run(test_suite)
-    exit(not result.wasSuccessful()) # Exit with 1 if any test fails, 0 otherwise
+    test_result = unittest.main(exit=False).result
+    if len(test_result.failures) == 0 and len(test_result.errors) == 0:
+        exit(0)  # Exit with 0 for success
+    else:
+        exit(1)  # Exit with 1 for failure

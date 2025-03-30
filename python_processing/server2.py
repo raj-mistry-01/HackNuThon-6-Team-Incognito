@@ -4,7 +4,7 @@ import os
 import subprocess
 import threading
 import requests
-from thread_batch import main_fn
+from thread_batch import main as main_fn
 from flask_cors import CORS  # Import CORS
 from server import fetch_ci_file, push_updated_ci_file, trigger_pipeline , wait_for_commit
 
@@ -34,8 +34,8 @@ def run_tests(WEBSITE_URL):
         main_fn(WEBSITE_URL=WEBSITE_URL)
         
         # ✅ Define the path to the dynamically created `run_all_tests.py`
-        repo_folder = os.path.join(os.getcwd(), "git")
-        test_script = os.path.join(repo_folder, "run_all_tests.py")
+        repo_folder = os.path.join(os.getcwd(), "testing")
+        test_script = os.path.join(repo_folder, "c.py")
 
         # ✅ Check if the script exists before executing
         if os.path.exists(test_script):
