@@ -1,15 +1,14 @@
 {
   "id": "TC002",
-  "name": "Login with extremely long username",
-  "description": "Verify the behavior when attempting to log in with an extremely long username.",
+  "name": "Login with email containing spaces",
+  "description": "Verify the behavior when attempting to log in with an email address containing spaces.",
   "steps": [
-    "Step 1: Enter a username exceeding 255 characters into the 'Username or email address' field.",
-    "Step 2: Enter a valid password into the 'Password' field.",
+    "Step 1: Enter an email address with spaces in the 'Username or email address' field.",
+    "Step 2: Enter a password in the 'Password' field.",
     "Step 3: Click the 'Sign in' button."
   ],
   "expected_results": [
-    "Expected result 1: The login attempt should fail.",
-    "Expected result 2: An error message might be displayed, or the input field might be truncated."
+    "Expected result 1: An error message should be displayed indicating an invalid email format."
   ],
   "elements": [
     {
@@ -33,10 +32,15 @@
       "description": "Sign in button",
       "type": "input",
       "selectors": {
-        "css": "input[type='submit']",
-        "xpath": "//input[@value='Sign in']"
+        "type": "submit",
+        "value": "Sign in"
       }
     }
   ],
-  "test_data": []
+  "test_data": [
+    {
+      "email": "test @example.com",
+      "password": "password123"
+    }
+  ]
 }

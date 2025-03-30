@@ -19,7 +19,8 @@
           "description": "Username or email address input field",
           "type": "input",
           "selectors": {
-            "id": "login_field"
+            "id": "login_field",
+            "name": "login"
           }
         },
         {
@@ -27,7 +28,8 @@
           "description": "Password input field",
           "type": "input",
           "selectors": {
-            "id": "password"
+            "id": "password",
+            "name": "password"
           }
         },
         {
@@ -35,8 +37,8 @@
           "description": "Sign in button",
           "type": "input",
           "selectors": {
-            "css": "input[type='submit']",
-            "xpath": "//input[@value='Sign in']"
+            "type": "submit",
+            "value": "Sign in"
           }
         }
       ],
@@ -44,16 +46,15 @@
     },
     {
       "id": "TC002",
-      "name": "Login with extremely long username",
-      "description": "Verify the behavior when attempting to log in with an extremely long username.",
+      "name": "Login with email containing spaces",
+      "description": "Verify the behavior when attempting to log in with an email address containing spaces.",
       "steps": [
-        "Step 1: Enter a username exceeding 255 characters into the 'Username or email address' field.",
-        "Step 2: Enter a valid password into the 'Password' field.",
+        "Step 1: Enter an email address with spaces in the 'Username or email address' field.",
+        "Step 2: Enter a password in the 'Password' field.",
         "Step 3: Click the 'Sign in' button."
       ],
       "expected_results": [
-        "Expected result 1: The login attempt should fail.",
-        "Expected result 2: An error message might be displayed, or the input field might be truncated."
+        "Expected result 1: An error message should be displayed indicating an invalid email format."
       ],
       "elements": [
         {
@@ -77,25 +78,29 @@
           "description": "Sign in button",
           "type": "input",
           "selectors": {
-            "css": "input[type='submit']",
-            "xpath": "//input[@value='Sign in']"
+            "type": "submit",
+            "value": "Sign in"
           }
         }
       ],
-      "test_data": []
+      "test_data": [
+        {
+          "email": "test @example.com",
+          "password": "password123"
+        }
+      ]
     },
     {
       "id": "TC003",
-      "name": "Login with username containing spaces",
-      "description": "Verify the behavior when attempting to log in with a username containing spaces.",
+      "name": "Login with extremely long email",
+      "description": "Verify the behavior when attempting to log in with an extremely long email address.",
       "steps": [
-        "Step 1: Enter a username containing spaces into the 'Username or email address' field.",
-        "Step 2: Enter a valid password into the 'Password' field.",
+        "Step 1: Enter a very long email address (e.g., exceeding 254 characters) in the 'Username or email address' field.",
+        "Step 2: Enter a password in the 'Password' field.",
         "Step 3: Click the 'Sign in' button."
       ],
       "expected_results": [
-        "Expected result 1: The login attempt should fail.",
-        "Expected result 2: An error message might be displayed indicating an invalid username format."
+        "Expected result 1: The application should either truncate the email address or display an error message indicating that the email address is too long."
       ],
       "elements": [
         {
@@ -119,26 +124,29 @@
           "description": "Sign in button",
           "type": "input",
           "selectors": {
-            "css": "input[type='submit']",
-            "xpath": "//input[@value='Sign in']"
+            "type": "submit",
+            "value": "Sign in"
           }
         }
       ],
-      "test_data": []
+      "test_data": [
+        {
+          "email": "testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest@example.com",
+          "password": "password123"
+        }
+      ]
     },
     {
       "id": "TC004",
-      "name": "Login with SQL Injection Attempt",
-      "description": "Verify the application's resilience against SQL injection attacks.",
+      "name": "Login with domain-less email",
+      "description": "Verify the behavior when attempting to log in with an email address without a domain.",
       "steps": [
-        "Step 1: Enter a SQL injection string (e.g., 'admin' or '1=1') into the 'Username or email address' field.",
-        "Step 2: Enter a SQL injection string or a regular password into the 'Password' field.",
+        "Step 1: Enter an email address without a domain (e.g., 'test') in the 'Username or email address' field.",
+        "Step 2: Enter a password in the 'Password' field.",
         "Step 3: Click the 'Sign in' button."
       ],
       "expected_results": [
-        "Expected result 1: The login attempt should be blocked.",
-        "Expected result 2: No database error messages should be displayed.",
-        "Expected result 3: An appropriate error message indicating invalid credentials should be shown."
+        "Expected result 1: An error message should be displayed indicating an invalid email format."
       ],
       "elements": [
         {
@@ -162,12 +170,63 @@
           "description": "Sign in button",
           "type": "input",
           "selectors": {
-            "css": "input[type='submit']",
-            "xpath": "//input[@value='Sign in']"
+            "type": "submit",
+            "value": "Sign in"
           }
         }
       ],
-      "test_data": []
+      "test_data": [
+        {
+          "email": "test",
+          "password": "password123"
+        }
+      ]
+    },
+    {
+      "id": "TC005",
+      "name": "SQL Injection Attempt in Username Field",
+      "description": "Attempt SQL injection via the username field.",
+      "steps": [
+        "Step 1: Enter a SQL injection string (e.g., \"' OR '1'='1\") into the 'Username or email address' field.",
+        "Step 2: Enter any password.",
+        "Step 3: Click 'Sign in'."
+      ],
+      "expected_results": [
+        "Expected Result 1: The application should not log in and should ideally display a generic error message that does not reveal system information.",
+        "Expected Result 2: No database error messages should be displayed."
+      ],
+      "elements": [
+        {
+          "step": "Step 1",
+          "description": "Username or email address input field",
+          "type": "input",
+          "selectors": {
+            "id": "login_field"
+          }
+        },
+        {
+          "step": "Step 2",
+          "description": "Password input field",
+          "type": "input",
+          "selectors": {
+            "id": "password"
+          }
+        },
+        {
+          "step": "Step 3",
+          "description": "Sign in button",
+          "type": "input",
+          "selectors": {
+            "type": "submit"
+          }
+        }
+      ],
+      "test_data": [
+        {
+          "email": "' OR '1'='1",
+          "password": "password"
+        }
+      ]
     }
   ]
 }

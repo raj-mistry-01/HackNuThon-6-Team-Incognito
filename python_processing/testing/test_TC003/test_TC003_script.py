@@ -7,18 +7,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import *
 
-class TestLoginWithSpacesInUsername(unittest.TestCase):
+class TestLogin(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.Chrome()  # Or any other browser
         self.driver.maximize_window()
-        self.test_data = []
-        try:
-            with open("testcase.json", "r") as f:
-                test_case = json.load(f)
-                self.test_data = test_case.get("test_data", [])
-        except FileNotFoundError:
-            print("testcase.json not found, using default values.")
 
     def tearDown(self):
         self.driver.quit()
@@ -37,77 +30,86 @@ class TestLoginWithSpacesInUsername(unittest.TestCase):
                     return wait.until(EC.presence_of_element_located((By.XPATH, selector_value)))
                 elif selector_type == "name":
                     return wait.until(EC.presence_of_element_located((By.NAME, selector_value)))
+                elif selector_type == "type": # Added for 'type' selector
+                    return wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, f'[type="{selector_value}"]')))
+                elif selector_type == "value": # Added for 'value' selector
+                    return wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, f'[value="{selector_value}"]')))
+
             except (TimeoutException, StaleElementReferenceException, NoSuchElementException):
                 continue  # Try the next selector
         raise Exception(f"Could not locate element with selectors: {selectors}")
-    
+
+
     def check_for_errors(self):
         try:
             # Check for console errors
             console_logs = self.driver.get_log('browser')
             if console_logs:
+                print("Console Errors Found:")
                 for log in console_logs:
-                    if log['level'] == 'SEVERE':  # Or other relevant levels
-                        return False, f"Console error: {log['message']}"
+                    print(log)
+                return False
 
-            # Check for URL errors (e.g., error parameters)
-            url = self.driver.current_url
-            if "error" in url.lower(): # Or any specific error pattern
-                return False, f"URL indicates error: {url}"
+            # Check for URL error parameters (e.g., ?error=something)
+            if "?error=" in self.driver.current_url:
+                print(f"Error in URL: {self.driver.current_url}")
+                return False
 
-            # Check for error elements on the page
+            # Check for specific error elements on the page (adapt as needed)
             try:
-                error_element = self.driver.find_element(By.ID, "error_message_id") # Replace with actual error element selector if known
-                # or
-                error_element = self.driver.find_element(By.CSS_SELECTOR, ".error-message") # Example CSS selector
-                return False, f"Error element found: {error_element.text}"
+                error_element = self.driver.find_element(By.ID, "error_message") # Replace with actual error element selector
+                print(f"Error element found: {error_element.text}")
+                return False
             except NoSuchElementException:
                 pass # No error element found
 
-            return True, "" # No errors detected
-
         except Exception as e:
-            return False, f"An unexpected error occurred during error checking: {e}"
+            print(f"An unexpected error occurred during error checking: {e}")
+            return False  # Consider this a failure
+
+        return True # No errors detected
 
 
+    def test_login_long_email(self):
+        try:
+            with open("testcase.json", "r") as f:
+                test_data_list = json.load(f).get("test_data", [])
+        except (FileNotFoundError, json.JSONDecodeError):
+            test_data_list = [{"email": "default_long_email@example.com", "password": "default_password"}]
 
-    def test_login_with_spaces(self):
-        if not self.test_data:
-            self.test_data = [{"username": "test user", "password": "password123"}] # Default test data
+        overall_result = True # Initialize overall result
 
-        for data in self.test_data:
-            username = data.get("username", "test user")
-            password = data.get("password", "password123")
-
-            self.driver.get("https://github.com/login")
-
+        for test_data in test_data_list:
             try:
-                username_field = self.locate_element({"id": "login_field"})
-                username_field.send_keys(username)
+                self.driver.get("https://github.com/login")
 
-                password_field = self.locate_element({"id": "password"})
-                password_field.send_keys(password)
+                email = test_data.get("email")
+                password = test_data.get("password")
 
-                sign_in_button = self.locate_element({"css": "input[type='submit']", "xpath": "//input[@value='Sign in']"})
-                sign_in_button.click()
+                self.locate_element({"id": "login_field"}).send_keys(email)
+                self.locate_element({"id": "password"}).send_keys(password)
+                self.locate_element({"type": "submit", "value": "Sign in"}).click()
 
-                is_passed, error_message = self.check_for_errors()
-                self.assertTrue(is_passed, error_message) # Check for various error types
+                if not self.check_for_errors():
+                    overall_result = False # Update overall result if a test case fails
+                    continue # Proceed to the next test data set
 
-                # Additional assertions to check if login failed as expected
-                # Example: Check if still on the login page or an error message is displayed
-                self.assertIn("login", self.driver.current_url.lower(), "Login should have failed, but redirected away from login page.")
-
+                # Add assertions for expected results (e.g., error message or truncated email)
+                # Example:
+                # error_message = self.locate_element({"id": "error_message"}).text
+                # self.assertIn("Email too long", error_message)
 
             except Exception as e:
-                print(f"Test failed: {e}")
-                self.fail(str(e)) # Fail the test case if any exception occurs
-            
+                print(f"Test case failed: {e}")
+                overall_result = False # Update overall result if a test case fails
+
+        print("Overall Test Result:", overall_result)
+        return overall_result # Return the overall result
 
 
 if __name__ == "__main__":
-    test_result = unittest.main(exit=False).result
-    failures = len(test_result.failures)
-    errors = len(test_result.errors)
-    print(f"Tests run: {test_result.testsRun}, Failures: {failures}, Errors: {errors}")
-    exit(failures + errors) # Exit with non-zero status if there are failures or errors
+    result = TestLogin().test_login_long_email()
+    if result:
+        exit(0)  # Exit code 0 for success
+    else:
+        exit(1)  # Exit code 1 for failure

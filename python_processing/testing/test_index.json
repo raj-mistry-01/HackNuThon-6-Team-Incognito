@@ -9,27 +9,34 @@
     },
     {
       "test_id": "TC002",
-      "test_name": "Login with extremely long username",
+      "test_name": "Login with email containing spaces",
       "script_path": "testing\\test_TC002\\test_TC002_script.py",
       "testcase_path": "testing\\test_TC002\\testcase.json",
       "directory": "testing\\test_TC002"
     },
     {
       "test_id": "TC003",
-      "test_name": "Login with username containing spaces",
+      "test_name": "Login with extremely long email",
       "script_path": "testing\\test_TC003\\test_TC003_script.py",
       "testcase_path": "testing\\test_TC003\\testcase.json",
       "directory": "testing\\test_TC003"
     },
     {
       "test_id": "TC004",
-      "test_name": "Login with SQL Injection Attempt",
+      "test_name": "Login with domain-less email",
       "script_path": "testing\\test_TC004\\test_TC004_script.py",
       "testcase_path": "testing\\test_TC004\\testcase.json",
       "directory": "testing\\test_TC004"
+    },
+    {
+      "test_id": "TC005",
+      "test_name": "SQL Injection Attempt in Username Field",
+      "script_path": "testing\\test_TC005\\test_TC005_script.py",
+      "testcase_path": "testing\\test_TC005\\testcase.json",
+      "directory": "testing\\test_TC005"
     }
   ],
-  "total_count": 4,
+  "total_count": 5,
   "website_url": "https://github.com/login",
-  "generation_time": "2025-03-30 20:15:51"
+  "generation_time": "2025-03-30 23:59:26"
 }

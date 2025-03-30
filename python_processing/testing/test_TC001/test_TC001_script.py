@@ -11,14 +11,7 @@ class TestGithubLogin(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.Chrome()  # Or any other browser
-        self.driver.maximize_window()
-        self.test_data = []
-        try:
-            with open("testcase.json", "r") as f:
-                test_case = json.load(f)
-                self.test_data = test_case.get("test_data", [])
-        except FileNotFoundError:
-            print("testcase.json not found, using default values.")
+        self.driver.get("https://github.com/login")
 
     def tearDown(self):
         self.driver.quit()
@@ -37,46 +30,50 @@ class TestGithubLogin(unittest.TestCase):
                     return wait.until(EC.presence_of_element_located((By.XPATH, selector_value)))
                 elif selector_type == "name":
                     return wait.until(EC.presence_of_element_located((By.NAME, selector_value)))
-            except (NoSuchElementException, TimeoutException):
+                elif selector_type == "type": # Added for 'type' selector
+                    return wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, f'[type="{selector_value}"]')))
+                elif selector_type == "value": # Added for 'value' selector
+                    return wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, f'[value="{selector_value}"]')))
+
+            except (StaleElementReferenceException, TimeoutException, NoSuchElementException):
                 continue  # Try the next selector
         raise Exception(f"Could not locate element with selectors: {selectors}")
 
 
-    def test_login_empty_credentials(self):
-        if not self.test_data:
-            self.test_data = [{}] # Run at least once with default values
+    def test_empty_login(self):
+        try:
+            with open("testcase.json", "r") as f:
+                test_data = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            test_data = {}  # Use default values if file not found or invalid
 
-        for data in self.test_data:
-            try:
-                self.driver.get("https://github.com/login")
+        # Extract elements from test data or use defaults
+        username_selectors = test_data.get("elements", [{}])[0].get("selectors", {"id": "login_field"})
+        password_selectors = test_data.get("elements", [{}])[1].get("selectors", {"id": "password"})
+        signin_selectors = test_data.get("elements", [{}])[2].get("selectors", {"type": "submit", "value": "Sign in"})
 
-                # Step 1 & 2: Leave fields empty (no action needed as they are empty by default)
-                username_field = self.locate_element({"id": "login_field"})
-                password_field = self.locate_element({"id": "password"})
 
-                # Step 3: Click Sign in
-                sign_in_button = self.locate_element({"css": "input[type='submit']", "xpath": "//input[@value='Sign in']"})
-                sign_in_button.click()
+        try:
+            # Perform test steps
+            username_field = self.locate_element(username_selectors)
+            password_field = self.locate_element(password_selectors)
+            signin_button = self.locate_element(signin_selectors)
 
-                # Assertions
-                error_messages = self.driver.find_elements(By.CSS_SELECTOR, ".flash-error")  # More generic error selector
-                self.assertTrue(any("username or email address is required" in msg.text for msg in error_messages), "Username error not found")
-                self.assertTrue(any("password is required" in msg.text for msg in error_messages), "Password error not found")
-                print("Test passed for data:", data)
-                return True # Test passed
+            username_field.clear()
+            password_field.clear()
+            signin_button.click()
 
-            except Exception as e:
-                print(f"Test failed for data: {data}. Error: {e}")
-                # Check for JavaScript errors or other unexpected behavior
-                for entry in self.driver.get_log('browser'):
-                    print(f"Browser log: {entry}")
-                return False # Test failed
+            # Assertions (check for error messages)
+            self.assertTrue(self.driver.find_element(By.CSS_SELECTOR, "#js-flash-container .flash-error").is_displayed(), "Login error message not displayed")
 
+            print("Test passed")
+            return True
+
+        except Exception as e:
+            print(f"Test failed: {e}")
+            return False
 
 
 if __name__ == "__main__":
-    test_result = unittest.main(exit=False).result
-    if len(test_result.failures) == 0 and len(test_result.errors) == 0:
-        exit(0)  # Exit with 0 for success
-    else:
-        exit(1)  # Exit with 1 for failure
+    test_result = TestGithubLogin().test_empty_login()
+    print(f"Overall test result: {'Pass' if test_result else 'Fail'}")

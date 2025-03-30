@@ -7,12 +7,20 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import *
 
-class TestLogin(unittest.TestCase):
+class TestLoginWithEmailSpaces(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.Chrome()  # Or any other browser
         self.driver.maximize_window()
-        self.test_passed = True
+        self.test_data = []
+        try:
+            with open("testcase.json", "r") as f:
+                testcase = json.load(f)
+                self.test_data = testcase.get("test_data", [])
+        except FileNotFoundError:
+            print("testcase.json not found, using default test data.")
+        if not self.test_data:
+            self.test_data = [{"email": "test @example.com", "password": "password123"}]  # Default data
 
     def tearDown(self):
         self.driver.quit()
@@ -31,79 +39,47 @@ class TestLogin(unittest.TestCase):
                     return wait.until(EC.presence_of_element_located((By.XPATH, selector_value)))
                 elif selector_type == "name":
                     return wait.until(EC.presence_of_element_located((By.NAME, selector_value)))
-            except (NoSuchElementException, TimeoutException):
+                elif selector_type == "type":
+                    return wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, f'[type="{selector_value}"]')))
+                elif selector_type == "value": # Added to handle value selector
+                    return wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, f'[value="{selector_value}"]')))
+            except (StaleElementReferenceException, TimeoutException, NoSuchElementException):
                 continue  # Try the next selector
         raise Exception(f"Could not locate element with selectors: {selectors}")
 
-    def check_for_errors(self):
-        try:
-            # Check for console errors
-            console_logs = self.driver.get_log('browser')
-            if console_logs:
-                for log in console_logs:
-                    if log['level'] == 'SEVERE':  # Or other relevant levels
-                        print(f"Console error: {log}")
-                        return False
 
-            # Check for error in URL (e.g., after a redirect)
-            if "error" in self.driver.current_url.lower():  # Adjust as needed
-                print(f"Error in URL: {self.driver.current_url}")
-                return False
-
-            # Check for specific error elements on the page
-            try:
-                error_element = self.driver.find_element(By.ID, "error_message") # Replace with actual error element selector
-                print(f"Error message on page: {error_element.text}")
-                return False
-            except NoSuchElementException:
-                pass # No error element found
-
-            return True # No errors detected
-
-        except Exception as e:
-            print(f"Error during error check: {e}")
-            return False
-
-
-    def test_login_long_username(self):
-        try:
-            with open("testcase.json", "r") as f:
-                test_data = json.load(f).get("test_data", [])
-        except (FileNotFoundError, json.JSONDecodeError):
-            test_data = []
-
-        if not test_data:
-            test_data = [{"username": "a" * 256, "password": "valid_password"}] # Default test data
-
-        for data in test_data:
+    def test_login_with_email_spaces(self):
+        overall_result = True
+        for data in self.test_data:
             try:
                 self.driver.get("https://github.com/login")
-
-                username_field = self.locate_element({"id": "login_field"})
-                username_field.send_keys(data["username"])
-
+                email_field = self.locate_element({"id": "login_field"})
                 password_field = self.locate_element({"id": "password"})
-                password_field.send_keys(data["password"])
+                sign_in_button = self.locate_element({"type": "submit", "value": "Sign in"})
 
-                sign_in_button = self.locate_element({"css": "input[type='submit']", "xpath": "//input[@value='Sign in']"})
+                email_field.send_keys(data["email"])
+                password_field.send_keys(data["password"])
                 sign_in_button.click()
 
-                if not self.check_for_errors():
-                    print("Test passed: Login failed as expected for long username.")
-                else:
-                    print("Test failed: Login succeeded unexpectedly with long username.")
-                    self.test_passed = False
+                # Assertions - Enhanced error handling
+                try:
+                    error_message = self.driver.find_element(By.CSS_SELECTOR, ".flash-error").text
+                    self.assertIn("Incorrect username or password.", error_message, "Expected error message not found") # Adjust error message as needed
+                except NoSuchElementException:
+                    url = self.driver.current_url
+                    self.assertEqual(url, "https://github.com/login", "Unexpected URL after login attempt")
+                    print("No error message displayed, but URL indicates login failure.")
+                    overall_result = False # Set overall result to False if any test data fails
 
             except Exception as e:
-                print(f"Test failed with exception: {e}")
-                self.test_passed = False
-
-        return self.test_passed
+                print(f"Test failed for data: {data} with error: {e}")
+                overall_result = False # Set overall result to False if any test data fails
+        return overall_result # Return overall result
 
 
 if __name__ == "__main__":
     test_suite = unittest.TestSuite()
-    test_suite.addTest(TestLogin("test_login_long_username"))
-    runner = unittest.TextTestRunner()
+    test_suite.addTest(unittest.makeSuite(TestLoginWithEmailSpaces))
+    runner = unittest.TextTestRunner(verbosity=2)
     result = runner.run(test_suite)
     exit(not result.wasSuccessful()) # Exit with 1 if any test fails, 0 otherwise

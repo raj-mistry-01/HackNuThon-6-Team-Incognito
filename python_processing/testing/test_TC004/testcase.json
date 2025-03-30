@@ -1,16 +1,14 @@
 {
   "id": "TC004",
-  "name": "Login with SQL Injection Attempt",
-  "description": "Verify the application's resilience against SQL injection attacks.",
+  "name": "Login with domain-less email",
+  "description": "Verify the behavior when attempting to log in with an email address without a domain.",
   "steps": [
-    "Step 1: Enter a SQL injection string (e.g., 'admin' or '1=1') into the 'Username or email address' field.",
-    "Step 2: Enter a SQL injection string or a regular password into the 'Password' field.",
+    "Step 1: Enter an email address without a domain (e.g., 'test') in the 'Username or email address' field.",
+    "Step 2: Enter a password in the 'Password' field.",
     "Step 3: Click the 'Sign in' button."
   ],
   "expected_results": [
-    "Expected result 1: The login attempt should be blocked.",
-    "Expected result 2: No database error messages should be displayed.",
-    "Expected result 3: An appropriate error message indicating invalid credentials should be shown."
+    "Expected result 1: An error message should be displayed indicating an invalid email format."
   ],
   "elements": [
     {
@@ -34,10 +32,15 @@
       "description": "Sign in button",
       "type": "input",
       "selectors": {
-        "css": "input[type='submit']",
-        "xpath": "//input[@value='Sign in']"
+        "type": "submit",
+        "value": "Sign in"
       }
     }
   ],
-  "test_data": []
+  "test_data": [
+    {
+      "email": "test",
+      "password": "password123"
+    }
+  ]
 }
