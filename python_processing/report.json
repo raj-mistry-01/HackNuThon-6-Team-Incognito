@@ -1,6 +1,6 @@
 {
-  "execution_date": "2025-03-30 15:31:07",
-  "total_duration_seconds": 54.774736,
+  "execution_date": "2025-03-30 15:48:22",
+  "total_duration_seconds": 88.222982,
   "total_tests": 5,
   "passed_tests": 3,
   "failed_tests": 2,
@@ -10,45 +10,45 @@
       "test_name": "Successful Login",
       "script_path": "git\\test_TC001\\test_TC001_script.py",
       "testcase_path": "git\\test_TC001\\testcase.json",
-      "start_time": "2025-03-30 15:31:07",
+      "start_time": "2025-03-30 15:48:22",
       "passed": true,
-      "end_time": "2025-03-30 15:31:20"
+      "end_time": "2025-03-30 15:48:58"
     },
     {
       "test_id": "TC002",
       "test_name": "Failed Login - Invalid Credentials",
       "script_path": "git\\test_TC002\\test_TC002_script.py",
       "testcase_path": "git\\test_TC002\\testcase.json",
-      "start_time": "2025-03-30 15:31:20",
+      "start_time": "2025-03-30 15:48:58",
       "passed": true,
-      "end_time": "2025-03-30 15:31:31"
+      "end_time": "2025-03-30 15:49:16"
     },
     {
       "test_id": "TC003",
-      "test_name": "Forgot Password Navigation",
+      "test_name": "Forgot Password",
       "script_path": "git\\test_TC003\\test_TC003_script.py",
       "testcase_path": "git\\test_TC003\\testcase.json",
-      "start_time": "2025-03-30 15:31:31",
+      "start_time": "2025-03-30 15:49:16",
       "passed": true,
-      "end_time": "2025-03-30 15:31:40"
+      "end_time": "2025-03-30 15:49:30"
     },
     {
       "test_id": "TC004",
-      "test_name": "Create Account Navigation",
+      "test_name": "Sign in with Passkey",
       "script_path": "git\\test_TC004\\test_TC004_script.py",
       "testcase_path": "git\\test_TC004\\testcase.json",
-      "start_time": "2025-03-30 15:31:40",
+      "start_time": "2025-03-30 15:49:30",
       "passed": false,
-      "end_time": "2025-03-30 15:31:51"
+      "end_time": "2025-03-30 15:49:40"
     },
     {
       "test_id": "TC005",
-      "test_name": "Passkey Sign in attempt",
+      "test_name": "Navigate to Create Account",
       "script_path": "git\\test_TC005\\test_TC005_script.py",
       "testcase_path": "git\\test_TC005\\testcase.json",
-      "start_time": "2025-03-30 15:31:51",
+      "start_time": "2025-03-30 15:49:40",
       "passed": false,
-      "end_time": "2025-03-30 15:32:02"
+      "end_time": "2025-03-30 15:49:50"
     }
   ]
 }

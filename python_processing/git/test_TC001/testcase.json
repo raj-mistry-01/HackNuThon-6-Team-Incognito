@@ -17,7 +17,8 @@
       "type": "input",
       "selectors": {
         "id": "login_field",
-        "name": "login"
+        "css": "#login_field",
+        "xpath": "//input[@id='login_field']"
       }
     },
     {
@@ -26,7 +27,8 @@
       "type": "input",
       "selectors": {
         "id": "password",
-        "name": "password"
+        "css": "#password",
+        "xpath": "//input[@id='password']"
       }
     },
     {
@@ -34,7 +36,7 @@
       "description": "Sign in button",
       "type": "submit",
       "selectors": {
-        "css": "input[type='submit'][name='commit']",
+        "css": ".js-sign-in-button",
         "xpath": "//input[@value='Sign in']"
       }
     }
@@ -43,6 +45,10 @@
     {
       "email": "testuser@example.com",
       "password": "validpassword"
+    },
+    {
+      "email": "anotheruser@example.com",
+      "password": "anothervalidpassword"
     }
   ]
 }

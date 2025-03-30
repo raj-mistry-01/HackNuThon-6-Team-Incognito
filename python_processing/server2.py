@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, send_file
+from flask import Flask, jsonify, send_file , request
 import json
 import os
 import subprocess
@@ -23,14 +23,14 @@ def testing():
 
 
 # ✅ Trigger Selenium Tests
-def run_tests():
+def run_tests(WEBSITE_URL):
     global test_status
 
     try:
         print("🔥 Running Main Function to Fetch Test Files...")
         
         # ✅ Execute main_fn() to clone the Git repo and generate the `git` folder
-        main_fn()
+        main_fn(WEBSITE_URL=WEBSITE_URL)
         
         # ✅ Define the path to the dynamically created `run_all_tests.py`
         repo_folder = os.path.join(os.getcwd(), "git")
@@ -86,8 +86,11 @@ def trigger_tests():
 # 🔥 Simplified `/test-status` endpoint → Only sends `true` or `false`
 @app.route('/test-status', methods=['GET'])
 def get_test_status():
+    # WEBSITE_URL = "https://github.com/login"
+    data = request.get_json()
+    wrl = data["WEBSITE_URL"]
     # ✅ Execute `main_fn()` + `run_all_tests.py`
-    run_tests()
+    run_tests(WEBSITE_URL=wrl)
 
     if os.path.exists(REPORT_FILE):
         with open(REPORT_FILE, "r", encoding="utf-8") as f:

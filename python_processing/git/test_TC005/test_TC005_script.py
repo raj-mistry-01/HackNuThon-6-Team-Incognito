@@ -6,24 +6,14 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-class TestPasskeySignIn(unittest.TestCase):
+class TestNavigateToCreateAccount(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.Chrome()  # Or any other browser
         self.driver.maximize_window()
-        self.test_data = self.load_test_data()
 
     def tearDown(self):
         self.driver.quit()
-
-    def load_test_data(self):
-        try:
-            file_path = os.path.join(os.path.dirname(__file__), 'testcase.json')
-            with open(file_path, 'r') as f:
-                return json.load(f)
-        except FileNotFoundError:
-            print("testcase.json not found, using default values.")
-            return {}  # Return empty dict for default behavior
 
     def locate_element(self, selectors, wait_time=10):
         wait = WebDriverWait(self.driver, wait_time)
@@ -43,34 +33,41 @@ class TestPasskeySignIn(unittest.TestCase):
                 continue
         raise Exception(f"Could not locate element with selectors: {selectors}")
 
-
-    def test_passkey_sign_in(self):
+    def test_navigate_to_create_account(self):
         try:
-            self.driver.get("https://github.com/login")
+            with open("testcase.json", "r") as f:
+                test_data = json.load(f)
+        except FileNotFoundError:
+            test_data = {}  # Use default values if file not found
 
-            # Locate and click the "Sign in with a passkey" button
-            passkey_button_selectors = self.test_data.get("elements", [{}])[0].get("selectors", {"css": ".js-webauthn-confirm-button"})
-            passkey_button = self.locate_element(passkey_button_selectors)
-            passkey_button.click()
+        if not test_data:
+            test_cases = [{}] # Run with default values if file is empty or no data
+        else:
+            test_cases = [test_data] # Run with the data from the file
 
-            # Assertion: Check if the passkey prompt is displayed (or an error if unsupported)
-            # This assertion needs to be browser/platform specific.  The example below checks for a specific error message that might appear if passkeys are not supported.
+        overall_result = True
+        for test_case in test_cases:
             try:
-                error_message = self.driver.find_element(By.XPATH, "//*[contains(text(), 'Your browser or operating system does not support passkeys.')]")  # Replace with actual error message locator
-                print("Passkey sign-in not supported (as expected).") # Or assertFalse(error_message.is_displayed()) depending on the expected behavior
-            except:
-                print("Passkey prompt displayed (or no specific error found).") # Assuming success if no specific error is found.  Replace with a more robust check if possible.
+                self.driver.get("https://github.com/login")
 
-            return True # Test passed
+                # Step 1: Click the 'Create an account' link
+                create_account_link = self.locate_element(test_case.get("elements", [{"css": ".login-callout a[href*='/signup']"}] )[0].get("selectors"))
+                create_account_link.click()
 
-        except Exception as e:
-            print(f"Test failed: {e}")
-            return False # Test failed
+                # Expected Result 1: User is redirected to the sign-up page.
+                self.assertTrue("signup" in self.driver.current_url, "User was not redirected to the signup page.")
+                print("Test passed for test case:", test_case.get("id", "Default"))
+
+            except Exception as e:
+                print(f"Test failed: {e}")
+                overall_result = False
+
+        return overall_result
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test_suite = unittest.TestSuite()
-    test_suite.addTest(unittest.makeSuite(TestPasskeySignIn))
+    test_suite.addTest(unittest.makeSuite(TestNavigateToCreateAccount))
     runner = unittest.TextTestRunner(verbosity=2)
-    result = runner.run(test_suite)
-    exit(not result.wasSuccessful()) # Exit with 1 if any test fails, 0 otherwise
+    test_result = runner.run(test_suite)
+    exit(not test_result.wasSuccessful()) # Exit with 1 if tests fail, 0 if they pass

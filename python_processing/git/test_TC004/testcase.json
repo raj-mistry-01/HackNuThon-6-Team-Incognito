@@ -1,21 +1,21 @@
 {
   "id": "TC004",
-  "name": "Create Account Navigation",
-  "description": "Verify navigation to the 'Create an account' page.",
+  "name": "Sign in with Passkey",
+  "description": "Verify the passkey login functionality.",
   "steps": [
-    "Step 1: Click the 'Create an account' link."
+    "Step 1: Click 'Sign in with a passkey'."
   ],
   "expected_results": [
-    "Expected Result 1: User is redirected to the account creation page."
+    "Expected Result 1: Passkey prompt appears."
   ],
   "elements": [
     {
       "step": "Step 1",
-      "description": "Create an account link",
-      "type": "link",
+      "description": "Passkey button (subtle)",
+      "type": "button",
       "selectors": {
-        "css": "a[href^='/signup']",
-        "xpath": "//a[contains(@href, '/signup')]"
+        "css": ".js-webauthn-subtle button",
+        "xpath": "//button[contains(text(),'Sign in with a passkey')]"
       }
     }
   ]

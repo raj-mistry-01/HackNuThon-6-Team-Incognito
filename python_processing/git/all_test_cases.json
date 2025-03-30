@@ -19,7 +19,8 @@
           "type": "input",
           "selectors": {
             "id": "login_field",
-            "name": "login"
+            "css": "#login_field",
+            "xpath": "//input[@id='login_field']"
           }
         },
         {
@@ -28,7 +29,8 @@
           "type": "input",
           "selectors": {
             "id": "password",
-            "name": "password"
+            "css": "#password",
+            "xpath": "//input[@id='password']"
           }
         },
         {
@@ -36,7 +38,7 @@
           "description": "Sign in button",
           "type": "submit",
           "selectors": {
-            "css": "input[type='submit'][name='commit']",
+            "css": ".js-sign-in-button",
             "xpath": "//input[@value='Sign in']"
           }
         }
@@ -45,6 +47,10 @@
         {
           "email": "testuser@example.com",
           "password": "validpassword"
+        },
+        {
+          "email": "anotheruser@example.com",
+          "password": "anothervalidpassword"
         }
       ]
     },
@@ -66,7 +72,9 @@
           "description": "Username/Email input field",
           "type": "input",
           "selectors": {
-            "id": "login_field"
+            "id": "login_field",
+            "css": "#login_field",
+            "xpath": "//input[@id='login_field']"
           }
         },
         {
@@ -74,7 +82,9 @@
           "description": "Password input field",
           "type": "input",
           "selectors": {
-            "id": "password"
+            "id": "password",
+            "css": "#password",
+            "xpath": "//input[@id='password']"
           }
         },
         {
@@ -82,22 +92,26 @@
           "description": "Sign in button",
           "type": "submit",
           "selectors": {
-            "css": "input[type='submit'][name='commit']",
+            "css": ".js-sign-in-button",
             "xpath": "//input[@value='Sign in']"
           }
         }
       ],
       "test_data": [
         {
-          "email": "invaliduser@example.com",
+          "email": "invaliduser",
           "password": "wrongpassword"
+        },
+        {
+          "email": "nonexistent@example.com",
+          "password": "incorrect"
         }
       ]
     },
     {
       "id": "TC003",
-      "name": "Forgot Password Navigation",
-      "description": "Verify navigation to the 'Forgot password?' page.",
+      "name": "Forgot Password",
+      "description": "Verify the 'Forgot password?' link functionality.",
       "steps": [
         "Step 1: Click the 'Forgot password?' link."
       ],
@@ -110,51 +124,53 @@
           "description": "Forgot password link",
           "type": "link",
           "selectors": {
-            "id": "forgot-password"
+            "id": "forgot-password",
+            "css": "#forgot-password",
+            "xpath": "//a[@id='forgot-password']"
           }
         }
       ]
     },
     {
       "id": "TC004",
-      "name": "Create Account Navigation",
-      "description": "Verify navigation to the 'Create an account' page.",
+      "name": "Sign in with Passkey",
+      "description": "Verify the passkey login functionality.",
       "steps": [
-        "Step 1: Click the 'Create an account' link."
+        "Step 1: Click 'Sign in with a passkey'."
       ],
       "expected_results": [
-        "Expected Result 1: User is redirected to the account creation page."
+        "Expected Result 1: Passkey prompt appears."
       ],
       "elements": [
         {
           "step": "Step 1",
-          "description": "Create an account link",
-          "type": "link",
+          "description": "Passkey button (subtle)",
+          "type": "button",
           "selectors": {
-            "css": "a[href^='/signup']",
-            "xpath": "//a[contains(@href, '/signup')]"
+            "css": ".js-webauthn-subtle button",
+            "xpath": "//button[contains(text(),'Sign in with a passkey')]"
           }
         }
       ]
     },
     {
       "id": "TC005",
-      "name": "Passkey Sign in attempt",
-      "description": "Verify the passkey sign in button exists and can be clicked.",
+      "name": "Navigate to Create Account",
+      "description": "Verify the 'Create an account' link functionality.",
       "steps": [
-        "Step 1: Click the 'Sign in with a passkey' button."
+        "Step 1: Click the 'Create an account' link."
       ],
       "expected_results": [
-        "Expected Result 1: The browser's passkey prompt is displayed (or an error if unsupported)."
+        "Expected Result 1: User is redirected to the sign-up page."
       ],
       "elements": [
         {
           "step": "Step 1",
-          "description": "Passkey Sign in button",
-          "type": "button",
+          "description": "Create account link",
+          "type": "link",
           "selectors": {
-            "css": ".js-webauthn-confirm-button",
-            "xpath": "//button[contains(span/text(), 'Sign in with a passkey')]"
+            "css": ".login-callout a[href*='/signup']",
+            "xpath": "//a[contains(text(),'Create an account')]"
           }
         }
       ]

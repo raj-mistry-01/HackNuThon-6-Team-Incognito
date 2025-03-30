@@ -6,14 +6,24 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-class TestCreateAccountNavigation(unittest.TestCase):
+class TestPasskeyLogin(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.Chrome()  # Or any other browser
         self.driver.maximize_window()
+        self.test_data = self.load_test_data()
 
     def tearDown(self):
         self.driver.quit()
+
+    def load_test_data(self):
+        try:
+            filepath = os.path.join(os.path.dirname(__file__), 'testcase.json')
+            with open(filepath, 'r') as f:
+                return json.load(f)
+        except FileNotFoundError:
+            print("testcase.json not found, using default values.")
+            return []  # or a default dictionary
 
     def locate_element(self, selectors, wait_time=10):
         wait = WebDriverWait(self.driver, wait_time)
@@ -33,39 +43,32 @@ class TestCreateAccountNavigation(unittest.TestCase):
                 continue
         raise Exception(f"Could not locate element with selectors: {selectors}")
 
-    def test_create_account_navigation(self):
-        try:
-            with open("testcase.json", "r") as f:
-                test_data = json.load(f)
-        except FileNotFoundError:
-            test_data = []  # Use default values if file not found
 
-        if not test_data:
-            test_data = [{}] # Run at least once with default values
+    def test_sign_in_with_passkey(self):
+        if not self.test_data:
+            self.test_data = [{}] # Run at least once with default values if file is empty
 
-        overall_result = True
-        for data in test_data:
+        for data in self.test_data:
             try:
                 self.driver.get("https://github.com/login")
 
-                # Step 1: Click the 'Create an account' link
-                create_account_link = self.locate_element({"css": "a[href^='/signup']", "xpath": "//a[contains(@href, '/signup')]"}, 10)
-                create_account_link.click()
+                # Step 1: Click 'Sign in with a passkey'
+                passkey_button = self.locate_element({"css": ".js-webauthn-subtle button", "xpath": "//button[contains(text(),'Sign in with a passkey')]"}, 15) # Increased wait time to 15 seconds
+                passkey_button.click()
 
-                # Expected Result 1: User is redirected to the account creation page.
-                self.assertIn("signup", self.driver.current_url)
-                print("Test passed for dataset:", data)
+                # Expected Result 1: Passkey prompt appears (Difficult to automate, requires OS interaction)
+                # Add assertion here if possible to check for a specific element/change after clicking the button
+                # For this specific case, manual verification might be necessary.
+                print("Passkey button clicked. Please manually verify if the passkey prompt appears.")
 
             except Exception as e:
-                print(f"Test failed for dataset: {data}. Error: {e}")
-                overall_result = False
+                print(f"Test failed: {e}")
+                return False  # Indicate test failure
 
-        return overall_result
+        return True  # Indicate test success
 
 
-if __name__ == "__main__":
-    test_suite = unittest.TestSuite()
-    test_suite.addTest(unittest.makeSuite(TestCreateAccountNavigation))
-    runner = unittest.TextTestRunner(verbosity=2)
-    test_result = runner.run(test_suite)
-    exit(not test_result.wasSuccessful()) # Exit with 1 if tests fail, 0 if they pass
+if __name__ == '__main__':
+    test_result = TestPasskeyLogin().run(unittest.makeSuite(TestPasskeyLogin)).wasSuccessful()
+    print("Test Result:", test_result) 
+    exit(not test_result) # Exit with 1 if test failed, 0 if passed

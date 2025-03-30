@@ -6,24 +6,14 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-class TestFailedLogin(unittest.TestCase):
+class TestGithubLogin(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.Chrome()  # Or any other browser
-        self.driver.maximize_window()
-        self.test_data = self.load_test_data()
+        self.driver.get("https://github.com/login")
 
     def tearDown(self):
         self.driver.quit()
-
-    def load_test_data(self):
-        try:
-            with open("testcase.json", "r") as f:
-                data = json.load(f)
-                return data.get("test_data", [])  # Extract test_data, default to empty list if not found
-        except FileNotFoundError:
-            print("testcase.json not found, using default test data.")
-            return [{"email": "invaliduser@example.com", "password": "wrongpassword"}]  # Default data
 
     def locate_element(self, selectors, wait_time=10):
         wait = WebDriverWait(self.driver, wait_time)
@@ -43,43 +33,51 @@ class TestFailedLogin(unittest.TestCase):
                 continue
         raise Exception(f"Could not locate element with selectors: {selectors}")
 
-
     def test_failed_login(self):
-        overall_result = True  # Initialize overall result
-        for data in self.test_data:
+        try:
+            with open(os.path.join(os.path.dirname(__file__), "testcase.json"), "r") as f:
+                test_data_list = json.load(f).get("test_data", [])
+        except FileNotFoundError:
+            test_data_list = []
+
+        if not test_data_list:
+            test_data_list = [{"email": "invaliduser", "password": "wrongpassword"}]  # Default values
+
+        overall_result = True
+        for test_data in test_data_list:
             try:
-                self.driver.get("https://github.com/login")
-                email = data.get("email", "invaliduser@example.com")  # Get email from data or use default
-                password = data.get("password", "wrongpassword")  # Get password from data or use default
+                email = test_data["email"]
+                password = test_data["password"]
 
                 # Step 1: Enter invalid username/email
-                username_field = self.locate_element({"id": "login_field"})
+                username_field = self.locate_element({"id": "login_field", "css": "#login_field", "xpath": "//input[@id='login_field']"})
                 username_field.send_keys(email)
 
                 # Step 2: Enter invalid password
-                password_field = self.locate_element({"id": "password"})
+                password_field = self.locate_element({"id": "password", "css": "#password", "xpath": "//input[@id='password']"})
                 password_field.send_keys(password)
 
-                # Step 3: Click the 'Sign in' button
-                sign_in_button = self.locate_element({"css": "input[type='submit'][name='commit']", "xpath": "//input[@value='Sign in']"})
+                # Step 3: Click Sign in
+                sign_in_button = self.locate_element({"css": ".js-sign-in-button", "xpath": "//input[@value='Sign in']"})
                 sign_in_button.click()
 
-                # Expected Result 1: Verify error message
-                # Assuming the error message appears near the password field, adjust selector if needed
-                error_message = self.locate_element({"id": "js-flash-container"})
+                # Expected Result: Error message displayed
+                error_message = self.locate_element({"id": "js-flash-container"}, wait_time=5) # Short wait for error
                 self.assertTrue(error_message.is_displayed(), "Error message not displayed")
-                print(f"Test passed for data: {data}")
+                print(f"Test Passed for {email}:{password}")
+
 
             except Exception as e:
-                print(f"Test failed for data: {data}. Error: {e}")
-                overall_result = False # Set overall result to False if any test fails
+                print(f"Test Failed for {email}:{password}: {e}")
+                overall_result = False
 
-        return overall_result # Return the overall result
+        return overall_result
+
 
 
 if __name__ == "__main__":
     test_suite = unittest.TestSuite()
-    test_suite.addTest(unittest.makeSuite(TestFailedLogin))
+    test_suite.addTest(unittest.makeSuite(TestGithubLogin))
     runner = unittest.TextTestRunner(verbosity=2)
     result = runner.run(test_suite)
-    exit(not result.wasSuccessful()) # Exit with 1 if any test fails, 0 otherwise
+    exit(not result.wasSuccessful()) # Exit with 1 if tests fail, 0 if pass

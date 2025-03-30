@@ -5,12 +5,15 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.firefox.options import Options
 
-class TestLogin(unittest.TestCase):
+class TestGithubLogin(unittest.TestCase):
 
     def setUp(self):
-        self.driver = webdriver.Chrome()  # Or any other browser
-        self.driver.maximize_window()
+        options = Options()
+        options.add_argument("--headless")  # Run in headless mode
+        self.driver = webdriver.Firefox(options=options)
+        self.driver.get("https://github.com/login")
 
     def tearDown(self):
         self.driver.quit()
@@ -41,35 +44,41 @@ class TestLogin(unittest.TestCase):
             test_data_list = []
 
         if not test_data_list:
-            test_data_list = [{"email": "defaultuser@example.com", "password": "defaultpassword"}]  # Default values
+            test_data_list = [{"email": "defaultuser@example.com", "password": "defaultpassword"}]
 
+        overall_result = True
         for test_data in test_data_list:
             try:
-                self.driver.get("https://github.com/login")
+                email = test_data["email"]
+                password = test_data["password"]
 
-                email_field = self.locate_element({"id": "login_field", "name": "login"})
-                email_field.send_keys(test_data["email"])
+                # Step 1: Enter username/email
+                username_field = self.locate_element({"id": "login_field", "css": "#login_field", "xpath": "//input[@id='login_field']"})
+                username_field.send_keys(email)
 
-                password_field = self.locate_element({"id": "password", "name": "password"})
-                password_field.send_keys(test_data["password"])
+                # Step 2: Enter password
+                password_field = self.locate_element({"id": "password", "css": "#password", "xpath": "//input[@id='password']"})
+                password_field.send_keys(password)
 
-                sign_in_button = self.locate_element({"css": "input[type='submit'][name='commit']", "xpath": "//input[@value='Sign in']"})
+                # Step 3: Click Sign in
+                sign_in_button = self.locate_element({"css": ".js-sign-in-button", "xpath": "//input[@value='Sign in']"})
                 sign_in_button.click()
 
-                # Assertion: Check if redirected (replace with a more robust check if needed)
-                self.assertIn("github.com", self.driver.current_url)  # Basic redirection check
-                print(f"Test passed for: {test_data}")
-                
-            except Exception as e:
-                print(f"Test failed for: {test_data}. Error: {e}")
-                return False # Explicitly return False on failure
+                # Assertion: Check if redirected (simple check for URL change -  replace with more robust check if needed)
+                self.assertNotEqual(self.driver.current_url, "https://github.com/login", f"Login failed for {email}")
+                print(f"Test passed for {email}")
 
-        return True # Return True if all tests pass
+
+            except Exception as e:
+                print(f"Test failed for {email}: {e}")
+                overall_result = False  # Set overall result to False if any test fails
+
+        return overall_result # Return True if all tests pass, False otherwise
 
 
 if __name__ == "__main__":
     test_suite = unittest.TestSuite()
-    test_suite.addTest(TestLogin("test_successful_login"))
+    test_suite.addTest(unittest.makeSuite(TestGithubLogin))
     runner = unittest.TextTestRunner()
     result = runner.run(test_suite)
     exit(not result.wasSuccessful()) # Exit with 1 if any test fails, 0 otherwise
