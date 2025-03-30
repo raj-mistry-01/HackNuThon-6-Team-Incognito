@@ -7,8 +7,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://incognito-three-chi.vercel.app/"], 
-    credentials: true, 
+    origin: "*", 
   })
 );
 
