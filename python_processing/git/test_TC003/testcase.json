@@ -1,7 +1,7 @@
 {
   "id": "TC003",
-  "name": "Forgot Password",
-  "description": "Verify the 'Forgot password?' link functionality.",
+  "name": "Forgot Password Navigation",
+  "description": "Verify navigation to the 'Forgot password?' page.",
   "steps": [
     "Step 1: Click the 'Forgot password?' link."
   ],
@@ -14,9 +14,7 @@
       "description": "Forgot password link",
       "type": "link",
       "selectors": {
-        "id": "forgot-password",
-        "css": "#forgot-password",
-        "xpath": "//a[@id='forgot-password']"
+        "id": "forgot-password"
       }
     }
   ]

@@ -16,9 +16,7 @@
       "description": "Username/Email input field",
       "type": "input",
       "selectors": {
-        "id": "login_field",
-        "css": "#login_field",
-        "xpath": "//input[@id='login_field']"
+        "id": "login_field"
       }
     },
     {
@@ -26,18 +24,15 @@
       "description": "Password input field",
       "type": "input",
       "selectors": {
-        "id": "password",
-        "css": "#password",
-        "xpath": "//input[@id='password']"
+        "id": "password"
       }
     },
     {
       "step": "Step 3",
       "description": "Sign in button",
-      "type": "submit",
+      "type": "button",
       "selectors": {
-        "css": ".js-sign-in-button",
-        "xpath": "//input[@value='Sign in']"
+        "css": ".js-sign-in-button"
       }
     }
   ],
@@ -45,10 +40,6 @@
     {
       "email": "testuser@example.com",
       "password": "validpassword"
-    },
-    {
-      "email": "anotheruser@example.com",
-      "password": "anothervalidpassword"
     }
   ]
 }

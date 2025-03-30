@@ -1,6 +1,6 @@
 {
-  "execution_date": "2025-03-30 15:48:22",
-  "total_duration_seconds": 88.222982,
+  "execution_date": "2025-03-30 18:20:16",
+  "total_duration_seconds": 79.679227,
   "total_tests": 5,
   "passed_tests": 3,
   "failed_tests": 2,
@@ -10,45 +10,45 @@
       "test_name": "Successful Login",
       "script_path": "git\\test_TC001\\test_TC001_script.py",
       "testcase_path": "git\\test_TC001\\testcase.json",
-      "start_time": "2025-03-30 15:48:22",
+      "start_time": "2025-03-30 18:20:16",
       "passed": true,
-      "end_time": "2025-03-30 15:48:58"
+      "end_time": "2025-03-30 18:20:34"
     },
     {
       "test_id": "TC002",
       "test_name": "Failed Login - Invalid Credentials",
       "script_path": "git\\test_TC002\\test_TC002_script.py",
       "testcase_path": "git\\test_TC002\\testcase.json",
-      "start_time": "2025-03-30 15:48:58",
+      "start_time": "2025-03-30 18:20:34",
       "passed": true,
-      "end_time": "2025-03-30 15:49:16"
+      "end_time": "2025-03-30 18:20:47"
     },
     {
       "test_id": "TC003",
-      "test_name": "Forgot Password",
+      "test_name": "Forgot Password Navigation",
       "script_path": "git\\test_TC003\\test_TC003_script.py",
       "testcase_path": "git\\test_TC003\\testcase.json",
-      "start_time": "2025-03-30 15:49:16",
+      "start_time": "2025-03-30 18:20:47",
       "passed": true,
-      "end_time": "2025-03-30 15:49:30"
+      "end_time": "2025-03-30 18:21:08"
     },
     {
       "test_id": "TC004",
-      "test_name": "Sign in with Passkey",
+      "test_name": "Sign Up Navigation",
       "script_path": "git\\test_TC004\\test_TC004_script.py",
       "testcase_path": "git\\test_TC004\\testcase.json",
-      "start_time": "2025-03-30 15:49:30",
+      "start_time": "2025-03-30 18:21:08",
       "passed": false,
-      "end_time": "2025-03-30 15:49:40"
+      "end_time": "2025-03-30 18:21:23"
     },
     {
       "test_id": "TC005",
-      "test_name": "Navigate to Create Account",
+      "test_name": "Passkey Sign in attempt",
       "script_path": "git\\test_TC005\\test_TC005_script.py",
       "testcase_path": "git\\test_TC005\\testcase.json",
-      "start_time": "2025-03-30 15:49:40",
+      "start_time": "2025-03-30 18:21:23",
       "passed": false,
-      "end_time": "2025-03-30 15:49:50"
+      "end_time": "2025-03-30 18:21:36"
     }
   ]
 }

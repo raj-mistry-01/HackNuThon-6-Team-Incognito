@@ -644,7 +644,7 @@ def main_fn(WEBSITE_URL):
     output_folder = ensure_output_dir()
     html_content = scrape_website_html(WEBSITE_URL, OUTPUT_FOLDER)
     if html_content:
-        # Set up multiprocessing
+        # Set up multiprocessing+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         task_queue = Queue()
         result_queue = Queue()
         workers = []

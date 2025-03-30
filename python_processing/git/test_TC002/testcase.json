@@ -1,7 +1,7 @@
 {
   "id": "TC002",
   "name": "Failed Login - Invalid Credentials",
-  "description": "Verify login failure with invalid credentials.",
+  "description": "Verify login fails with invalid credentials.",
   "steps": [
     "Step 1: Enter invalid username or email address.",
     "Step 2: Enter invalid password.",
@@ -16,9 +16,7 @@
       "description": "Username/Email input field",
       "type": "input",
       "selectors": {
-        "id": "login_field",
-        "css": "#login_field",
-        "xpath": "//input[@id='login_field']"
+        "id": "login_field"
       }
     },
     {
@@ -26,29 +24,22 @@
       "description": "Password input field",
       "type": "input",
       "selectors": {
-        "id": "password",
-        "css": "#password",
-        "xpath": "//input[@id='password']"
+        "id": "password"
       }
     },
     {
       "step": "Step 3",
       "description": "Sign in button",
-      "type": "submit",
+      "type": "button",
       "selectors": {
-        "css": ".js-sign-in-button",
-        "xpath": "//input[@value='Sign in']"
+        "css": ".js-sign-in-button"
       }
     }
   ],
   "test_data": [
     {
-      "email": "invaliduser",
+      "email": "invaliduser@example.com",
       "password": "wrongpassword"
-    },
-    {
-      "email": "nonexistent@example.com",
-      "password": "incorrect"
     }
   ]
 }

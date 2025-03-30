@@ -6,6 +6,7 @@ import threading
 import requests
 from thread_batch import main_fn
 from flask_cors import CORS  # Import CORS
+from server import fetch_ci_file, push_updated_ci_file, trigger_pipeline , wait_for_commit
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "https://incognito-three-chi.vercel.app"}})
@@ -84,7 +85,7 @@ def trigger_tests():
 
 
 # 🔥 Simplified `/test-status` endpoint → Only sends `true` or `false`
-@app.route('/test-status', methods=['GET'])
+@app.route('/test-status', methods=['POST'])
 def get_test_status():
     # WEBSITE_URL = "https://github.com/login"
     data = request.get_json()
@@ -102,9 +103,19 @@ def get_test_status():
 
         # ✅ Only return status: true or false
         status = total_tests == passed_tests
-        return jsonify({"status": status})
+        if push_updated_ci_file(status):
+            # ✅ Wait for the new YAML commit
+            commit_message = f"🔥 Add {'SUCCESS' if status else 'FAIL'} pipeline YAML"
 
-    return jsonify({"status": False})
+            if wait_for_commit(commit_message):
+                pipeline_triggered = trigger_pipeline()
+                return jsonify({
+                    "status": status,
+                    "pipeline_triggered": pipeline_triggered
+                })
+
+    # ✅ If no report is found, return false status
+    return jsonify({"status": False, "pipeline_triggered": False})
 
 # 🔥 Endpoint to serve the test report file
 @app.route('/report', methods=['GET'])
