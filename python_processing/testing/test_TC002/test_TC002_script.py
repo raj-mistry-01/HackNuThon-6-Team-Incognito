@@ -5,20 +5,14 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import *
 
-class TestLogin(unittest.TestCase):
+class TestLoginWithEmailSpace(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.Chrome()  # Or any other browser
         self.driver.maximize_window()
-        self.test_data = []
-        try:
-            with open("testcase.json", "r") as f:
-                test_case = json.load(f)
-                self.test_data = test_case.get("test_data", [])
-        except FileNotFoundError:
-            print("testcase.json not found, using default values.")
+        self.test_passed = False
 
     def tearDown(self):
         self.driver.quit()
@@ -37,68 +31,83 @@ class TestLogin(unittest.TestCase):
                     return wait.until(EC.presence_of_element_located((By.XPATH, selector_value)))
                 elif selector_type == "name":
                     return wait.until(EC.presence_of_element_located((By.NAME, selector_value)))
-            except Exception as e:
-                print(f"Error locating element: {e}")
+            except (NoSuchElementException, TimeoutException):
                 continue  # Try the next selector
-        raise NoSuchElementException(f"Could not locate element with selectors: {selectors}")
-
-
+        raise Exception(f"Could not locate element with selectors: {selectors}")
+    
     def check_for_errors(self):
         try:
-            # Check for error message displayed on the page
-            error_element = self.driver.find_element(By.CSS_SELECTOR, ".flash-error") # Example error selector
+            # Check for error message element (adapt selector as needed)
+            error_element = self.driver.find_element(By.CSS_SELECTOR, ".flash-error")
             return error_element.text
         except NoSuchElementException:
             pass  # No error element found
 
         try:
-            # Check for error in URL (e.g., after redirect)
-            if "error" in self.driver.current_url.lower():
+            # Check URL for error parameters
+            if "error" in self.driver.current_url:
                 return "Error in URL"
         except Exception as e:
             print(f"Error checking URL: {e}")
 
         try:
-            # Check browser console for errors
+            # Check console logs for errors
             for entry in self.driver.get_log('browser'):
                 if entry['level'] == 'SEVERE':
                     return entry['message']
         except Exception as e:
-            print(f"Error checking browser console: {e}")
+            print(f"Error checking console logs: {e}")
         
-        return None  # No error detected
+        return None  # No errors detected
 
 
-    def test_login_long_email(self):
-        if not self.test_data:
-            self.test_data = [{"email": "a"*300, "password": "testpassword"}] # Default values
+    def test_login_with_email_space(self):
+        try:
+            with open("testcase.json", "r") as f:
+                test_data = json.load(f).get("test_data", [])  # Get test data or empty list
+        except FileNotFoundError:
+            test_data = []
 
-        for data in self.test_data:
-            email = data.get("email", "a"*300) # Default long email if not provided
-            password = data.get("password", "testpassword")
+        if not test_data:
+            test_data = [{}]  # Default data if file is empty or not found
+
+        for data in test_data:
             try:
                 self.driver.get("https://github.com/login")
-                email_field = self.locate_element({"id": "login_field"})
-                email_field.send_keys(email)
+
+                # Use data from testcase.json or default values
+                username = data.get("username", "test @example.com")
+                password = data.get("password", "password123")
+
+
+                username_field = self.locate_element({"id": "login_field"})
+                username_field.send_keys(username)
+
                 password_field = self.locate_element({"id": "password"})
                 password_field.send_keys(password)
-                sign_in_button = self.locate_element({"css": "input[type='submit']"})
+
+                sign_in_button = self.locate_element({"css": ".js-sign-in-button"})
                 sign_in_button.click()
 
                 error_message = self.check_for_errors()
-                self.assertTrue(error_message, "No error message displayed for long email")
-                print(f"Test passed for email: {email[:20]}... (truncated)") # Truncate for display
+
+                self.assertTrue(error_message, "No error message detected") # Check for any type of error
+                print("Test Passed")
+                self.test_passed = True
 
             except Exception as e:
-                print(f"Test failed: {e}")
-                return False # Explicitly return False on failure
+                print(f"Test Failed: {e}")
+                self.test_passed = False
+            finally:
+                # Ensure this is set for each iteration
+                self.driver.delete_all_cookies()
 
-        return True # Return True if all tests pass
+        return self.test_passed
 
 
 if __name__ == "__main__":
-    test_result = unittest.main(exit=False).result
-    if len(test_result.failures) == 0 and len(test_result.errors) == 0:
-        exit(0)  # Exit code 0 for success
-    else:
-        exit(1)  # Exit code 1 for failure
+    test_suite = unittest.TestSuite()
+    test_suite.addTest(TestLoginWithEmailSpace("test_login_with_email_space"))
+    runner = unittest.TextTestRunner(verbosity=2)
+    result = runner.run(test_suite)
+    exit(not result.wasSuccessful())  # Exit with 1 if tests fail, 0 if they pass

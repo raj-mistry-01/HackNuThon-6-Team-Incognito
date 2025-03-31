@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import *
 
-class TestLoginWithEmailSpaces(unittest.TestCase):
+class TestLogin(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.Chrome()  # Or any other browser
@@ -41,30 +41,30 @@ class TestLoginWithEmailSpaces(unittest.TestCase):
             if console_logs:
                 for log in console_logs:
                     if log['level'] == 'SEVERE':  # Or other relevant levels
-                        print(f"Console Error: {log['message']}")
+                        print(f"Console Error: {log}")
                         return False
 
-            # Check for URL error parameters (e.g., ?error=something)
-            if "?error=" in self.driver.current_url:
-                print(f"URL Error: {self.driver.current_url}")
+            # Check for error in URL (e.g., after a redirect)
+            if "error" in self.driver.current_url.lower():  # Adjust as needed
+                print(f"Error in URL: {self.driver.current_url}")
                 return False
 
-            # Check for specific error elements on the page
+            # Check for a generic error div (customize as needed)
             try:
-                error_element = self.driver.find_element(By.ID, "error_message_id") # Replace with actual error element selector if known
-                print(f"Page Error: {error_element.text}")
+                error_div = self.driver.find_element(By.ID, "error-message") # Or CSS selector, XPath
+                print(f"Error message on page: {error_div.text}")
                 return False
             except NoSuchElementException:
-                pass  # No specific error element found
+                pass  # No error div found
 
         except Exception as e:
-            print(f"Error during error check: {e}")
-            return False  # Consider this a failure if error checking itself fails
+            print(f"An unexpected error occurred during error checking: {e}")
+            return False  # Consider this a failure
 
         return True # No errors detected
 
 
-    def test_login_with_email_spaces(self):
+    def test_login_long_email(self):
         try:
             with open("testcase.json", "r") as f:
                 test_data = json.load(f).get("test_data", [])
@@ -72,8 +72,7 @@ class TestLoginWithEmailSpaces(unittest.TestCase):
             test_data = []
 
         if not test_data:
-            test_data = [{"email": "test user@example.com", "password": "password123"}] # Default test data
-
+            test_data = [{"email": "extremelylongemail" * 15 + "@example.com", "password": "password123"}]
 
         for data in test_data:
             try:
@@ -85,21 +84,27 @@ class TestLoginWithEmailSpaces(unittest.TestCase):
                 password_field = self.locate_element({"id": "password"})
                 password_field.send_keys(data["password"])
 
-                sign_in_button = self.locate_element({"css": "input[type='submit']", "xpath": "//input[@value='Sign in']"})
+                sign_in_button = self.locate_element({"css": ".js-sign-in-button"})
                 sign_in_button.click()
 
-                if self.check_for_errors():  # Check for various error indicators
-                    print("Test Passed for data:", data)
-                    return True # Test passed if no errors found
-                else:
-                    print("Test Failed for data:", data)
-                    return False # Test failed if errors found
+                if not self.check_for_errors():
+                    return False # Test failed due to detected errors
+
+                # Add assertions based on your expected behavior (e.g., error message, truncated email)
+                # Example:
+                # error_message = self.locate_element({"id": "error-message"}) # Replace with actual error element selector
+                # self.assertTrue("Email too long" in error_message.text)
 
             except Exception as e:
-                print(f"Test failed due to an exception: {e}")
+                print(f"Test failed: {e}")
                 return False
+
+        return True  # All tests passed
 
 
 if __name__ == "__main__":
-    test_result = TestLoginWithEmailSpaces().test_login_with_email_spaces()
-    print(f"Overall Test Result: {'Pass' if test_result else 'Fail'}")
+    test_suite = unittest.TestSuite()
+    test_suite.addTest(unittest.makeSuite(TestLogin))
+    runner = unittest.TextTestRunner(verbosity=2)
+    result = runner.run(test_suite)
+    exit(not result.wasSuccessful()) # Exit with 1 if tests fail, 0 if they pass

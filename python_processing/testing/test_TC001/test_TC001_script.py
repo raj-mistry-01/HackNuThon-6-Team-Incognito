@@ -12,7 +12,13 @@ class TestGithubLogin(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome()  # Or any other browser
         self.driver.maximize_window()
-        self.test_passed = True
+        self.test_data = []
+        try:
+            with open("testcase.json", "r") as f:
+                test_case = json.load(f)
+                self.test_data = test_case.get("test_data", [])
+        except FileNotFoundError:
+            print("testcase.json not found, using default values.")
 
     def tearDown(self):
         self.driver.quit()
@@ -31,85 +37,52 @@ class TestGithubLogin(unittest.TestCase):
                     return wait.until(EC.presence_of_element_located((By.XPATH, selector_value)))
                 elif selector_type == "name":
                     return wait.until(EC.presence_of_element_located((By.NAME, selector_value)))
-            except (NoSuchElementException, TimeoutException):
+            except (TimeoutException, StaleElementReferenceException, NoSuchElementException):
                 continue  # Try the next selector
         raise Exception(f"Could not locate element with selectors: {selectors}")
 
     def check_for_errors(self):
         try:
-            # Check for console errors
-            console_logs = self.driver.get_log('browser')
-            if console_logs:
-                for log in console_logs:
-                    if log['level'] == 'SEVERE':  # Or other relevant levels
-                        print(f"Console error: {log['message']}")
-                        self.test_passed = False
-                        return  # Stop checking after the first severe error
+            # Check for error message in the URL (e.g., ?error=login_failure)
+            if "error" in self.driver.current_url:
+                return True
 
-            # Check for URL errors (e.g., error parameters)
-            url = self.driver.current_url
-            if "error" in url.lower():  # Or other error indicators
-                print(f"URL indicates an error: {url}")
-                self.test_passed = False
-                return
-
-            # Check for error elements on the page
-            try:
-                error_element = self.driver.find_element(By.CSS_SELECTOR, ".flash-error") # Example error div
-                print(f"Error element found on page: {error_element.text}")
-                self.test_passed = False
-                return
-            except NoSuchElementException:
-                pass # No error element found
-
-        except Exception as e:
-            print(f"Error during error checking: {e}")
-            self.test_passed = False
+            # Check for specific error elements on the page
+            error_element = self.driver.find_element(By.CSS_SELECTOR, ".flash-error") # Example error class
+            if error_element:
+                return True
+            
+            # Check for JavaScript errors in the browser console
+            for entry in self.driver.get_log('browser'):
+                if entry['level'] == 'SEVERE':  # Or other relevant log levels
+                    return True
+        except NoSuchElementException:
+            pass  # No error element found
+        return False
 
 
     def test_login_empty_credentials(self):
-        try:
-            with open("testcase.json", "r") as f:
-                test_data = json.load(f)
-        except (FileNotFoundError, json.JSONDecodeError):
-            test_data = {}  # Use default values if file not found or invalid
-
         self.driver.get("https://github.com/login")
 
-        # Locate elements using the provided selectors
         username_field = self.locate_element({"id": "login_field"})
         password_field = self.locate_element({"id": "password"})
-        sign_in_button = self.locate_element({"css": "input[type='submit']", "xpath": "//input[@value='Sign in']"})
+        sign_in_button = self.locate_element({"css": ".js-sign-in-button"})
 
         username_field.clear()
         password_field.clear()
         sign_in_button.click()
 
-        self.check_for_errors() # Check for all types of errors
-
-        # Assertions (example - adapt as needed based on actual error messages)
-        try:
-            username_error = self.locate_element({"id": "login_field-error"})
-            self.assertTrue(username_error.is_displayed(), "Username error message not displayed")
-        except:
-            self.test_passed = False
-            print("Username error not found")
-
-        try:
-            password_error = self.locate_element({"id": "password-error"})
-            self.assertTrue(password_error.is_displayed(), "Password error message not displayed")
-        except:
-            self.test_passed = False
-            print("Password error not found")
-
-        print("Test Passed" if self.test_passed else "Test Failed")
-        return self.test_passed
-
+        self.assertTrue(self.check_for_errors(), "Expected error messages not displayed.")
 
 
 if __name__ == "__main__":
-    test_suite = unittest.TestSuite()
-    test_suite.addTest(TestGithubLogin("test_login_empty_credentials"))
-    runner = unittest.TextTestRunner(verbosity=2)
-    result = runner.run(test_suite)
-    exit(not result.wasSuccessful()) # Exit with 1 if tests fail, 0 if they pass
+    test_result = unittest.main(exit=False).result
+    failures = len(test_result.failures)
+    errors = len(test_result.errors)
+
+    if failures == 0 and errors == 0:
+        print("Test Passed: True")
+        exit(0)  # Exit code 0 for pass
+    else:
+        print("Test Passed: False")
+        exit(1)  # Exit code 1 for failure

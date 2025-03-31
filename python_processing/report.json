@@ -1,14 +1,14 @@
 {
-    "execution_date": "2025-03-31 00:42:47",
-    "total_duration_seconds": 41.7983,
+    "execution_date": "2025-03-31 07:04:06",
+    "total_duration_seconds": 37.205798,
     "total_tests": 4,
-    "passed_tests": 2,
-    "failed_tests": 2,
+    "passed_tests": 4,
+    "failed_tests": 0,
     "results": [
         {
-            "test_case": 2,
+            "test_case": 1,
             "status": "PASSED",
-            "url": "testing\\test_TC002\\test_TC002_script.py"
+            "url": "testing\\test_TC001\\test_TC001_script.py"
         },
         {
             "test_case": 3,
@@ -16,14 +16,14 @@
             "url": "testing\\test_TC003\\test_TC003_script.py"
         },
         {
-            "test_case": 4,
-            "status": "FAILED",
-            "url": "testing\\test_TC004\\test_TC004_script.py"
+            "test_case": 2,
+            "status": "PASSED",
+            "url": "testing\\test_TC002\\test_TC002_script.py"
         },
         {
-            "test_case": 1,
-            "status": "FAILED",
-            "url": "testing\\test_TC001\\test_TC001_script.py"
+            "test_case": 4,
+            "status": "PASSED",
+            "url": "testing\\test_TC004\\test_TC004_script.py"
         }
     ]
 }
