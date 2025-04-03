@@ -1,14 +1,14 @@
 {
   "id": "TC002",
-  "name": "Login with email containing space",
-  "description": "Verify the system's response to an email address containing a space.",
+  "name": "Login with extremely long email address",
+  "description": "Verify the behavior when attempting to log in with an extremely long email address.",
   "steps": [
-    "Step 1: Enter 'test @example.com' (with a space) into the 'Username or email address' field.",
-    "Step 2: Enter any password into the 'Password' field.",
+    "Step 1: Enter an email address exceeding 254 characters into the 'Username or email address' field.",
+    "Step 2: Enter a valid password into the 'Password' field.",
     "Step 3: Click the 'Sign in' button."
   ],
   "expected_results": [
-    "Expected result 1: An error message should appear indicating an invalid email format."
+    "Expected result 1: An error message should be displayed indicating that the email address is too long or invalid."
   ],
   "elements": [
     {
@@ -30,9 +30,9 @@
     {
       "step": "Step 3",
       "description": "Sign in button",
-      "type": "submit",
+      "type": "input",
       "selectors": {
-        "css": ".js-sign-in-button"
+        "css": "input[type='submit'][name='commit']"
       }
     }
   ],

@@ -1,19 +1,20 @@
 {
   "id": "TC004",
   "name": "Login with SQL Injection Attempt",
-  "description": "Attempt SQL injection in the username field.",
+  "description": "Verify the system's resilience against SQL injection attacks.",
   "steps": [
-    "Step 1: Enter 'test@example.com' or '1'='1' --' in the 'Username or email address' field.",
-    "Step 2: Enter any password into the 'Password' field.",
-    "Step 3: Click the 'Sign in' button."
+    "Step 1: In the 'Username or email address' field, enter a typical SQL injection string like:  `' OR '1'='1`",
+    "Step 2: Enter any password (it doesn't matter for this test).",
+    "Step 3: Click 'Sign in'."
   ],
   "expected_results": [
-    "Expected Result 1: The application should not execute the SQL injection and should handle the input securely. An error message indicating invalid credentials is expected."
+    "Expected Result 1: The login should fail.  No error message specific to SQL injection should be displayed (to avoid giving information to attackers), but a generic invalid credentials message is acceptable.",
+    "Expected Result 2: The application should not exhibit any unexpected behavior or errors."
   ],
   "elements": [
     {
       "step": "Step 1",
-      "description": "Username or email address input field",
+      "description": "Username/Email field",
       "type": "input",
       "selectors": {
         "id": "login_field"
@@ -21,7 +22,7 @@
     },
     {
       "step": "Step 2",
-      "description": "Password input field",
+      "description": "Password field",
       "type": "input",
       "selectors": {
         "id": "password"
@@ -32,7 +33,7 @@
       "description": "Sign in button",
       "type": "submit",
       "selectors": {
-        "css": ".js-sign-in-button"
+        "css": "input[type='submit'][name='commit']"
       }
     }
   ],

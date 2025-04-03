@@ -7,11 +7,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import *
 
-class TestLogin(unittest.TestCase):
+class TestLoginWithEmailSpaces(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.Chrome()  # Or any other browser
         self.driver.maximize_window()
+        self.test_passed = True
 
     def tearDown(self):
         self.driver.quit()
@@ -30,81 +31,70 @@ class TestLogin(unittest.TestCase):
                     return wait.until(EC.presence_of_element_located((By.XPATH, selector_value)))
                 elif selector_type == "name":
                     return wait.until(EC.presence_of_element_located((By.NAME, selector_value)))
-            except (StaleElementReferenceException, TimeoutException, NoSuchElementException):
+            except (NoSuchElementException, TimeoutException):
                 continue  # Try the next selector
         raise Exception(f"Could not locate element with selectors: {selectors}")
 
-    def check_for_errors(self):
-        try:
-            # Check for console errors
-            console_logs = self.driver.get_log('browser')
-            if console_logs:
-                for log in console_logs:
-                    if log['level'] == 'SEVERE':  # Or other relevant levels
-                        print(f"Console Error: {log}")
-                        return False
 
-            # Check for error in URL (e.g., after a redirect)
-            if "error" in self.driver.current_url.lower():  # Adjust as needed
-                print(f"Error in URL: {self.driver.current_url}")
-                return False
-
-            # Check for a generic error div (customize as needed)
-            try:
-                error_div = self.driver.find_element(By.ID, "error-message") # Or CSS selector, XPath
-                print(f"Error message on page: {error_div.text}")
-                return False
-            except NoSuchElementException:
-                pass  # No error div found
-
-        except Exception as e:
-            print(f"An unexpected error occurred during error checking: {e}")
-            return False  # Consider this a failure
-
-        return True # No errors detected
-
-
-    def test_login_long_email(self):
+    def test_login_with_email_spaces(self):
         try:
             with open("testcase.json", "r") as f:
-                test_data = json.load(f).get("test_data", [])
-        except FileNotFoundError:
-            test_data = []
+                test_data_list = json.load(f).get("test_data", [])
+        except (FileNotFoundError, json.JSONDecodeError):
+            test_data_list = []  # Use default values if file not found or invalid
 
-        if not test_data:
-            test_data = [{"email": "extremelylongemail" * 15 + "@example.com", "password": "password123"}]
+        if not test_data_list:
+            test_data_list = [{}] # Run at least once with default values
 
-        for data in test_data:
+        for test_data in test_data_list:
             try:
                 self.driver.get("https://github.com/login")
 
+                email_with_spaces = test_data.get("email", "test user@example.com")
+                password = test_data.get("password", "password123")
+
+                # Step 1: Enter email with spaces
                 email_field = self.locate_element({"id": "login_field"})
-                email_field.send_keys(data["email"])
+                email_field.send_keys(email_with_spaces)
 
+                # Step 2: Enter password
                 password_field = self.locate_element({"id": "password"})
-                password_field.send_keys(data["password"])
+                password_field.send_keys(password)
 
-                sign_in_button = self.locate_element({"css": ".js-sign-in-button"})
+                # Step 3: Click Sign in
+                sign_in_button = self.locate_element({"css": "input[type='submit'][name='commit']"})
                 sign_in_button.click()
 
-                if not self.check_for_errors():
-                    return False # Test failed due to detected errors
 
-                # Add assertions based on your expected behavior (e.g., error message, truncated email)
-                # Example:
-                # error_message = self.locate_element({"id": "error-message"}) # Replace with actual error element selector
-                # self.assertTrue("Email too long" in error_message.text)
+                # Assertions (Check for error message)
+                try:
+                    # Check for error in the URL (some sites do this)
+                    self.assertNotIn("error", self.driver.current_url.lower(), "Error found in URL")
+
+                    # Check for a specific error element (adapt as needed)
+                    error_element = self.locate_element({"id": "js-flash-container .flash-error"}, wait_time=5) # Example
+                    self.assertTrue(error_element.is_displayed(), "Error message not displayed")
+
+                except (NoSuchElementException, TimeoutException, AssertionError) as e:
+                    # Check for JavaScript errors in the console
+                    for log_entry in self.driver.get_log('browser'):
+                        if log_entry['level'] == 'SEVERE':
+                            print(f"JavaScript error: {log_entry['message']}")
+                            self.test_passed = False
+                            break  # Stop checking after the first severe error
+                    if self.test_passed: # If no JS errors, re-raise the original exception
+                        raise e
 
             except Exception as e:
                 print(f"Test failed: {e}")
-                return False
+                self.test_passed = False
 
-        return True  # All tests passed
+        return self.test_passed
 
 
 if __name__ == "__main__":
     test_suite = unittest.TestSuite()
-    test_suite.addTest(unittest.makeSuite(TestLogin))
+    test_suite.addTest(unittest.makeSuite(TestLoginWithEmailSpaces))
     runner = unittest.TextTestRunner(verbosity=2)
     result = runner.run(test_suite)
     exit(not result.wasSuccessful()) # Exit with 1 if tests fail, 0 if they pass

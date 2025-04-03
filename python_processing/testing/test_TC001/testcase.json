@@ -17,8 +17,7 @@
       "description": "Username or email address input field",
       "type": "input",
       "selectors": {
-        "id": "login_field",
-        "name": "login"
+        "id": "login_field"
       }
     },
     {
@@ -26,17 +25,15 @@
       "description": "Password input field",
       "type": "input",
       "selectors": {
-        "id": "password",
-        "name": "password"
+        "id": "password"
       }
     },
     {
       "step": "Step 3",
       "description": "Sign in button",
-      "type": "submit",
+      "type": "input",
       "selectors": {
-        "css": ".js-sign-in-button",
-        "name": "commit"
+        "css": "input[type='submit'][name='commit']"
       }
     }
   ],

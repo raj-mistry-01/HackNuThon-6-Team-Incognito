@@ -33,7 +33,7 @@ OUTPUT_FOLDER = "./testing"  # Folder to store generated test scripts
 # API_KEYS = ["AIzaSyBXVJwIaNeEsbqAYnmvmM1rGkH1ElNKVmM", "AIzaSyAB52eRWrAudeIraPEBu-p-lcfEHPp4Z1E", "AIzaSyA3wmhd6LxxLtfaYnxb-_kAwBrEkswbOYI"]  # Replace with your three Google Gemini API keys
 
 # 4 
-# API_KEYS = ["AIzaSyD2wsIV48Afsbpvbx-VjlAFsU6fpxyEy_w", "AIzaSyD9kkbri5EaQGklDrPue2TVki6CNW6VI1w", "AIzaSyDG5AGJvOh19ZuqLDMzIeOiFI1b4GyGKQI"]  # Replace with your three Google Gemini API keys
+API_KEYS = ["AIzaSyD2wsIV48Afsbpvbx-VjlAFsU6fpxyEy_w", "AIzaSyD9kkbri5EaQGklDrPue2TVki6CNW6VI1w", "AIzaSyDG5AGJvOh19ZuqLDMzIeOiFI1b4GyGKQI"]  # Replace with your three Google Gemini API keys
 
 # 5 
 # API_KEYS = ["AIzaSyCrV3zu_jWyLXMwV3iPh0p9M-XO7oqn3_w", "AIzaSyAbm-VkuoDsiMhHjmCJIQTfeEsL9MQSAvY", "AIzaSyDfLXaOyNk0ranGuyEJRVqFrq0Xj59KDys"]  # Replace with your three Google Gemini API keys
@@ -48,7 +48,7 @@ OUTPUT_FOLDER = "./testing"  # Folder to store generated test scripts
 # API_KEYS = ["AIzaSyAkVrXNvpnkbka-eGGsNjm6nk-iF89dWQI", "AIzaSyBABWnwOaQlPtEkcnKFLHpJCMEtsCFe3dk", "AIzaSyBAiPrGh06ZBq6M6T5NY0wrLYyyTo3mQgQ"]
 
 # 9
-API_KEYS = ["AIzaSyA7B8BTgsLXvV5TzvIU1acTi8NSygM4ceE", "AIzaSyCQwCbJbR6SqlZNh-EeFYM8q_8hek-KJxg", "AIzaSyCGr743jJaGBYdJBemxOl7_eHwLjww_ddA"]  # Replace with your three Google Gemini API keys
+# API_KEYS = ["AIzaSyA7B8BTgsLXvV5TzvIU1acTi8NSygM4ceE", "AIzaSyCQwCbJbR6SqlZNh-EeFYM8q_8hek-KJxg", "AIzaSyCGr743jJaGBYdJBemxOl7_eHwLjww_ddA"]  # Replace with your three Google Gemini API keys
 MAX_BATCHES = 3  # Maximum number of API calls for test generation
 def ensure_output_dir():
     output_path = Path(OUTPUT_FOLDER)

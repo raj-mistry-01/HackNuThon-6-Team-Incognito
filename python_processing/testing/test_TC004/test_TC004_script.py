@@ -11,8 +11,7 @@ class TestLoginSQLInjection(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.Chrome()  # Or any other browser
-        self.driver.maximize_window()
-        self.test_passed = True
+        self.driver.get("https://github.com/login")
 
     def tearDown(self):
         self.driver.quit()
@@ -31,38 +30,33 @@ class TestLoginSQLInjection(unittest.TestCase):
                     return wait.until(EC.presence_of_element_located((By.XPATH, selector_value)))
                 elif selector_type == "name":
                     return wait.until(EC.presence_of_element_located((By.NAME, selector_value)))
-            except (StaleElementReferenceException, TimeoutException, NoSuchElementException):
+            except (NoSuchElementException, TimeoutException):
                 continue  # Try the next selector
         raise Exception(f"Could not locate element with selectors: {selectors}")
-    
+
     def check_for_errors(self):
+        # Check for console errors
         try:
-            # Check for console errors
             console_logs = self.driver.get_log('browser')
             for log in console_logs:
-                if log['level'] == 'SEVERE':  # Or other relevant log levels
-                    print(f"Console Error: {log['message']}")
-                    return False
-
-            # Check for URL-based errors (e.g., error parameters)
-            current_url = self.driver.current_url
-            if "error" in current_url.lower() or "exception" in current_url.lower(): # Customize as needed
-                print(f"URL Error: {current_url}")
-                return False
-
-            # Check for specific error elements on the page
-            try:
-                error_element = self.driver.find_element(By.ID, "error_message_id") # Replace with actual error element selector if known
-                print(f"Page Error: {error_element.text}")
-                return False
-            except NoSuchElementException:
-                pass  # No error element found
-
+                if log['level'] == 'SEVERE':  # Or other relevant levels
+                    return False, f"Console error: {log['message']}"
         except Exception as e:
-            print(f"Error during error check: {e}")
-            return False  # Consider this a failure if error checking itself fails
+            return False, f"Error checking console logs: {e}"
 
-        return True # No errors detected
+        # Check for URL-based errors (e.g., error parameters)
+        current_url = self.driver.current_url
+        if "error" in current_url.lower() or "exception" in current_url.lower():  # Customize as needed
+            return False, f"URL indicates an error: {current_url}"
+
+        # Check for error elements on the page (divs, alerts, etc.)
+        try:
+            error_element = self.driver.find_element(By.CSS_SELECTOR, ".flash-error") # Example selector, adapt as needed
+            return False, f"Error element found on page: {error_element.text}"
+        except NoSuchElementException:
+            pass  # No error element found
+
+        return True, "" # No errors detected
 
 
     def test_login_sql_injection(self):
@@ -73,46 +67,45 @@ class TestLoginSQLInjection(unittest.TestCase):
             test_data = []
 
         if not test_data:
-            test_data = [{"username": "test@example.com' or '1'='1' --", "password": "password123"}] # Default values
+            test_data = [{}]  # Run with default values if no test data
 
         for data in test_data:
             try:
-                self.driver.get("https://github.com/login")
-
                 username_field = self.locate_element({"id": "login_field"})
                 username_field.clear()
-                username_field.send_keys(data.get("username", "test@example.com' or '1'='1' --"))
+                username_field.send_keys("' OR '1'='1")
 
                 password_field = self.locate_element({"id": "password"})
                 password_field.clear()
-                password_field.send_keys(data.get("password", "password123"))
+                password_field.send_keys("dummy_password")  # Any password
 
-                sign_in_button = self.locate_element({"css": ".js-sign-in-button"})
+                sign_in_button = self.locate_element({"css": "input[type='submit'][name='commit']"})
                 sign_in_button.click()
 
-                if not self.check_for_errors():
-                    self.test_passed = False
 
-                # Assertion to check if login failed (as expected for SQL injection attempt)
-                try:
-                    error_message = self.locate_element({"css": ".flash-error"}, wait_time=5) # Adjust selector if needed
-                    self.assertTrue("Incorrect username or password." in error_message.text, "Expected error message not found")
-                except Exception:
-                    self.fail("Login unexpectedly succeeded or a different error occurred.")
+                is_pass, error_message = self.check_for_errors()
+                if not is_pass:
+                    print(f"Test failed: {error_message}")
+                    self.fail(error_message)  # Fail the test if errors are found
+                else:
+                    # Assertions for successful negative login (no SQL injection success)
+                    # Example: Check that the user is NOT redirected to a dashboard/profile page
+                    self.assertIn("login", self.driver.current_url.lower(), "Login should have failed, but seems to have succeeded.")
+                    print("Test passed: SQL Injection attempt thwarted.")
 
 
             except Exception as e:
                 print(f"Test failed: {e}")
-                self.test_passed = False
+                self.fail(str(e))
+                return False # Explicitly return False on failure
 
-        print("Test Passed" if self.test_passed else "Test Failed")
-        return self.test_passed
+        return True # Return True if all tests pass
 
 
 
 if __name__ == "__main__":
     result = unittest.main(exit=False).result
-    if len(result.failures) + len(result.errors) == 0:
-        exit(0)  # Exit code 0 for success
+    if len(result.failures) == 0 and len(result.errors) == 0:
+        exit(0) # Exit code 0 for success
     else:
-        exit(1)  # Exit code 1 for failure
+        exit(1) # Exit code 1 for failure
